@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FPPC Gift Tracker</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="fair_political_practice_commission">Fair Political Practice Commission</string>
+    <string name="gift_tracker">Gift Tracker</string>
+    <string name="this_month_">This month:</string>
+
+</resources>
