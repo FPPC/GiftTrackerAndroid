@@ -7,5 +7,14 @@
     <string name="fair_political_practice_commission">Fair Political Practice Commission</string>
     <string name="gift_tracker">Gift Tracker</string>
     <string name="this_month_">This month:</string>
+    <string name="add">Add</string>
+    <string name="name_of_source_not_an_acronym_">Name of source (not an acronym)</string>
+    <string name="address_business_address_acceptable_">Address (business address acceptable)</string>
+    <string name="business_activity_of_any_of_source">Business activity, of any, of source</string>
+    <string name="lobbyist">Lobbyist</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="search_hint">Search source</string>
 
 </resources>

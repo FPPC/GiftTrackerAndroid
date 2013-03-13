@@ -70,4 +70,5 @@ public class Source implements Serializable {
 	public void setCurrent(double current) {
 		this.current = current;
 	}
+	
 }

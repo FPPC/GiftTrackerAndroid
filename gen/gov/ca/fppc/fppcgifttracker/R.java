@@ -29,26 +29,61 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int TextView01=0x7f070005;
-        public static final int app_name=0x7f070007;
-        public static final int general_header=0x7f070006;
+        public static final int TextView01=0x7f070009;
+        public static final int TextView02=0x7f07000b;
+        public static final int TextView03=0x7f07000c;
+        public static final int TextView04=0x7f07000d;
+        public static final int app_name=0x7f070013;
+        public static final int button1=0x7f070010;
+        public static final int dashboard_add_btn=0x7f070011;
+        public static final int general_header=0x7f070012;
         public static final int general_header_ref=0x7f070000;
-        public static final int imageView1=0x7f070008;
-        public static final int textView1=0x7f070001;
-        public static final int textView2=0x7f070002;
-        public static final int textView3=0x7f070004;
-        public static final int textView4=0x7f070003;
+        public static final int imageView1=0x7f070014;
+        public static final int lobbyist=0x7f07001a;
+        public static final int new_source_button_wrap=0x7f07001b;
+        public static final int s_business=0x7f07001f;
+        public static final int s_name=0x7f07001e;
+        public static final int s_sum=0x7f070020;
+        public static final int search_bar=0x7f07000e;
+        public static final int source_address_input=0x7f070018;
+        public static final int source_business_input=0x7f070019;
+        public static final int source_business_input_wrapper=0x7f070015;
+        public static final int source_input_cancel_delete_btn=0x7f07001c;
+        public static final int source_input_save_btn=0x7f07001d;
+        public static final int source_name_input=0x7f070017;
+        public static final int src_list=0x7f07000f;
+        public static final int src_name_label=0x7f070016;
+        public static final int tab1=0x7f070001;
+        public static final int tableRow1=0x7f070002;
+        public static final int tableRow2=0x7f070004;
+        public static final int tableRow3=0x7f070008;
+        public static final int tableRow4=0x7f07000a;
+        public static final int textView1=0x7f070003;
+        public static final int textView2=0x7f070005;
+        public static final int textView3=0x7f070006;
+        public static final int textView4=0x7f070007;
     }
     public static final class layout {
         public static final int dashboard=0x7f030000;
         public static final int general_header=0x7f030001;
+        public static final int new_source=0x7f030002;
+        public static final int source_item_view=0x7f030003;
     }
     public static final class string {
+        public static final int add=0x7f050006;
+        public static final int address_business_address_acceptable_=0x7f050008;
         public static final int app_name=0x7f050000;
+        public static final int business_activity_of_any_of_source=0x7f050009;
+        public static final int cancel=0x7f05000b;
+        public static final int delete=0x7f05000d;
         public static final int dummy_button=0x7f050002;
         public static final int dummy_content=0x7f050001;
         public static final int fair_political_practice_commission=0x7f050003;
         public static final int gift_tracker=0x7f050004;
+        public static final int lobbyist=0x7f05000a;
+        public static final int name_of_source_not_an_acronym_=0x7f050007;
+        public static final int save=0x7f05000c;
+        public static final int search_hint=0x7f05000e;
         public static final int this_month_=0x7f050005;
     }
     public static final class style {
@@ -81,13 +116,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f060001;
-        public static final int ButtonBar=0x7f060003;
-        public static final int ButtonBarButton=0x7f060002;
-        public static final int FullscreenActionBarStyle=0x7f060008;
-        public static final int FullscreenTheme=0x7f060004;
-        public static final int header_title=0x7f060005;
-        public static final int italic_summary=0x7f060006;
-        public static final int normal_summary=0x7f060007;
+        public static final int FullscreenActionBarStyle=0x7f060005;
+        public static final int FullscreenTheme=0x7f060006;
+        public static final int header_title=0x7f060002;
+        public static final int summary_text=0x7f060003;
+        public static final int summary_text_italic=0x7f060004;
     }
     public static final class styleable {
         /** 

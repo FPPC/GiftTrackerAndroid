@@ -20,13 +20,18 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public static final String GIFT_ID = "gft_id";
 	public static final String GIFT_VALUE = "gft_value";
 	public static final String GIFT_DESCRIPTION = "gft_description";
+	
+	public static final String SOURCE_TABLE_FTS = "indexed_sources";
+	public static final String DOC_ID = "docid";
+	public static final String CONTENT = "content";
 
 	private static final String DATABASE_NAME = "FORM700D";
 	private static final int DATABASE_VERSION = 1;
 
-	// build create table query
 
-	private static final String SOURCE_CREATE = "create table " + TABLE_SOURCE
+	
+	// build create table query
+	private static final String SOURCE_CREATE = "CREATE TABLE " + TABLE_SOURCE
 			+ "(" + SOURCE_ID + " integer primary key autoincrement, "
 			+ SOURCE_NAME + " text not null, " + SOURCE_ADDR + " text, "
 			+ SOURCE_ACTI + " text, " + SOURCE_LOBBY + " integer, "
@@ -36,7 +41,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			+ "(" + GIFT_ID + " integer primary key autoincrement, "
 			+ SOURCE_ID + " integer, " + GIFT_DATE + " integer, " + GIFT_VALUE
 			+ " real, " + GIFT_DESCRIPTION + " text);";
-
+	
+	/*
+	 * Build index table for fast source search
+	 */
+	private static final String SOURCE_SEARCH_CREATE = "CREATE VIRTUAL TABLE " + SOURCE_TABLE_FTS
+			+ " USING fts3(" + CONTENT+ ")";
+	
 	public SQLiteHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
@@ -45,6 +56,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase database) {
 		database.execSQL(SOURCE_CREATE);
 		database.execSQL(GIFT_CREATE);
+		database.execSQL(SOURCE_SEARCH_CREATE);
 	}
 
 	@Override
