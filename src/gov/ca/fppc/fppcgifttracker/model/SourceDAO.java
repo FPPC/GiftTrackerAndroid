@@ -48,13 +48,16 @@ public class SourceDAO {
 		 * put the same thing into FTS table
 		 */
 		ContentValues search_index = new ContentValues();
-		search_index.put(SQLiteHelper.CONTENT, name+" "+ addr+ " " + acti);
+		String index_content = name + " " + addr + " " + acti;
+		search_index.put(SQLiteHelper.CONTENT, index_content);
 		search_index.put(SQLiteHelper.DOC_ID,insertID);
 		long secondID = db.insert(SQLiteHelper.SOURCE_TABLE_FTS, null, search_index);
 
 		/*
 		 * DEBUG
 		 */
+		android.util.Log.wtf("Just say",index_content);
+
 		if (secondID != insertID) {
 			android.util.Log.wtf("SOMETHING IS WRONG","TERRIBLY WRONG");
 		}
@@ -150,20 +153,23 @@ public class SourceDAO {
 		 * quick search for the ID
 		 * SELECT I.* FROM indexed_sources i JOIN sources d ON i.docid = d.src_id WHERE i.content MATCH <search string>;
 		 */
-		String queryline = "SELECT i.* FROM " 
-					+ SQLiteHelper.SOURCE_TABLE_FTS + " i JOIN " 
-					+ SQLiteHelper.TABLE_SOURCE+ " d ON i."
-					+ SQLiteHelper.DOC_ID + " = d."
-					+ SQLiteHelper.SOURCE_ID + " WHERE i."
-					+SQLiteHelper.CONTENT + " MATCH ?;";
-		String [] argument = {s};
+		String queryline = "SELECT d.* FROM " 
+				+ SQLiteHelper.SOURCE_TABLE_FTS + " i JOIN " 
+				+ SQLiteHelper.TABLE_SOURCE+ " d ON i."
+				+ SQLiteHelper.DOC_ID + " = d."
+				+ SQLiteHelper.SOURCE_ID + " WHERE i."
+				+SQLiteHelper.CONTENT + " MATCH ?;";
+		String [] argument = {s+"*"};
 		Cursor cursor = db.rawQuery(queryline, argument);
-		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
-			Source source = cursorToSource(cursor);
-			source.setCurrent(this.sum(source.getID()));
-			srcs.add(source);
-			cursor.moveToNext();
+		if (cursor.moveToFirst()) {
+			android.util.Log.wtf("Iwanna see",String.format("%d",cursor.getColumnCount()));
+
+			while (!cursor.isAfterLast()) {
+				Source source = cursorToSource(cursor);
+				source.setCurrent(this.sum(source.getID()));
+				srcs.add(source);
+				cursor.moveToNext();
+			}
 		}
 		cursor.close();
 		return srcs;
