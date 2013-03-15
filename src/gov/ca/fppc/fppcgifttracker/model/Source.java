@@ -1,5 +1,7 @@
 package gov.ca.fppc.fppcgifttracker.model;
 
+import gov.ca.fppc.fppcgifttracker.controller.Constant;
+
 import java.io.Serializable;
 
 public class Source implements Serializable {
@@ -12,8 +14,6 @@ public class Source implements Serializable {
 	private String address;
 	private String activity;
 	private int lobby;
-	private double limit;
-	private double current;
 
 	public long getID() {
 		return id;
@@ -56,19 +56,15 @@ public class Source implements Serializable {
 	}
 
 	public double getLimit() {
-		return limit;
+		return (lobby == 0)?Constant.GIFT_LIMIT:Constant.LOBBY_LIMIT;
 	}
 
-	public void setLimit(double limit) {
-		this.limit = limit;
+	public double getLimitLeft(GiftSourceRelationDAO r, int year, int month) {
+		double limit = Constant.GIFT_LIMIT;
+		if (this.lobby == 0) {
+			return limit-r.totalReceived(this.id, year);
+		}
+		
+		return limit-r.totalReceived(this.id, year, month);
 	}
-
-	public double getCurrent() {
-		return current;
-	}
-
-	public void setCurrent(double current) {
-		this.current = current;
-	}
-	
 }

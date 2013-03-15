@@ -14,7 +14,6 @@ public class NewSource extends Activity {
 	private EditText src_name;
 	private EditText src_address;
 	private EditText src_business;
-	private EditText src_limit;
 	private CheckBox lobbyist;
 
 	private SourceDAO sdao;
@@ -64,7 +63,6 @@ public class NewSource extends Activity {
 			src_name.setText(source.getName());
 			src_address.setText(source.getAddress());
 			src_business.setText(source.getActivity());
-			src_limit.setText(String.format("%.2f", source.getLimit()));
 			lobbyist.setChecked((source.getLobby()!=0));
 
 			cancel_edit.setText(R.string.delete);
@@ -77,30 +75,26 @@ public class NewSource extends Activity {
 		String name = src_name.getText().toString();
 		String addr = src_address.getText().toString();
 		String acti = src_business.getText().toString();
-		Double limit;
-		try {
-			limit = Double.parseDouble(src_business.getText().toString());
-		} catch (NumberFormatException e) {
-			limit = 0.0;
-		}
+		
 		int lobby = (lobbyist.isChecked()?1:0);
 		Intent i;
 		if (mode == Constant.EDIT) {
 			source.setName(name);
 			source.setAddress(addr);
 			source.setActivity(acti);
-			source.setLimit(limit);
 			source.setLobby(lobby);
 
 			sdao.updateSource(source);
 			/*
-			 * quick patching for test, will need fix later TODO
+			 * quick patch for test,
+			 * should direct back to the page before the edit, not to dashboard
 			 */
 			i = new Intent(this,Dashboard.class);
 			
 		} else {
 			/*new source case*/
-			sdao.createSource(name, addr, acti, lobby, limit);
+			Source log_id = sdao.createSource(name, addr, acti, lobby);
+			android.util.Log.wtf("ADD ENTRY", ""+log_id.getID()+" "+log_id.getName());
 			i = new Intent(this,Dashboard.class);
 		}
 		this.startActivity(i);

@@ -16,5 +16,6 @@
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="search_hint">Search source</string>
+    <string name="gift_limit_">Gift limit:</string>
 
 </resources>

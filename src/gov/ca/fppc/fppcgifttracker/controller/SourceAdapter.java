@@ -1,7 +1,5 @@
 package gov.ca.fppc.fppcgifttracker.controller;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import gov.ca.fppc.fppcgifttracker.R;
 import android.content.Context;
@@ -15,24 +13,21 @@ import gov.ca.fppc.fppcgifttracker.model.*;
 public class SourceAdapter extends ArrayAdapter<Source>{
 	private final Context context;
 	private List<Source> source;
-	private final List<Source> everything;
-	
+	private GiftSourceRelationDAO lookup;
+	private int year;
+	private int month;
 	/*
 	 * Make comparator for sort
 	 * Sort by allowance left
 	 */
-	private static Comparator<Source> C = new Comparator<Source>() {
-		public int compare(Source s1, Source s2) {
-			return (int)((s1.getLimit()-s1.getCurrent()) - (s2.getLimit()-s2.getCurrent()));
-		}
-	};
 	
-	public SourceAdapter(Context context, List<Source> source) {
+	public SourceAdapter(Context context, List<Source> source, GiftSourceRelationDAO lookup, int year, int month) {
 		super(context, R.layout.source_item_view,source);
-		this.context=context;
-		this.source= source;
-		this.everything = source;
-		Collections.sort(this.source,C);
+		this.context = context;
+		this.source = source;
+		this.lookup = lookup;
+		this.year = year;
+		this.month = month;
 	}
 	
 	@Override
@@ -50,14 +45,26 @@ public class SourceAdapter extends ArrayAdapter<Source>{
 		} else {
 			vholder = (SourceViewHolder) rowView.getTag();
 		}
-		vholder.s_name.setText(source.get(position).getName());
-		vholder.s_business.setText(source.get(position).getActivity());
+		Source sc = source.get(position);
+		vholder.s_name.setText(sc.getName());
+		android.util.Log.wtf("work here",sc.getName());
+		String job;
+		double limit_left = sc.getLimit();
+		if (sc.getLobby() != 0) {
+			job = sc.getActivity()+ " - Lobbyist";
+			limit_left -= lookup.totalReceived(sc.getID(), this.year, this.month);
+		} else {
+			job = sc.getActivity();
+			limit_left -= lookup.totalReceived(sc.getID(),this.year);
+		}
+			
+		vholder.s_business.setText(job);
 		//TODO: color according to %
-		vholder.s_sum.setText(String.format("$%.2f",source.get(position).getCurrent()));
-		
+		vholder.s_sum.setText(String.format("$%.2f",limit_left));
 		return rowView;
 	}
-	static class SourceViewHolder {
+	
+	static private class SourceViewHolder {
 		TextView s_name;
 		TextView s_business;
 		TextView s_sum;

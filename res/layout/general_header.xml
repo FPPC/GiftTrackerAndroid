@@ -23,7 +23,7 @@
             android:text="@string/fair_political_practice_commission" />
 
         <TextView
-            android:id="@+id/app_name"
+            android:id="@+id/activity"
             style="@style/header_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

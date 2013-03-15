@@ -17,8 +17,7 @@ public class SourceDAO {
 	private SQLiteHelper dbhelper;
 	private String[] allColumns = { SQLiteHelper.SOURCE_ID,
 			SQLiteHelper.SOURCE_NAME, SQLiteHelper.SOURCE_ADDR,
-			SQLiteHelper.SOURCE_ACTI, SQLiteHelper.SOURCE_LOBBY,
-			SQLiteHelper.SOURCE_LIMIT };
+			SQLiteHelper.SOURCE_ACTI, SQLiteHelper.SOURCE_LOBBY};
 	private List<Source> srcs;
 
 	public SourceDAO(Context context) {
@@ -34,39 +33,40 @@ public class SourceDAO {
 		dbhelper.close();
 	}
 
-	public Source createSource(String name, String addr, String acti,
-			int lobby, double limit) {
+	public Source createSource(String name, String addr, String acti, int lobby) {
 		ContentValues values = new ContentValues();
 		values.put(SQLiteHelper.SOURCE_NAME, name);
 		values.put(SQLiteHelper.SOURCE_ADDR, addr);
 		values.put(SQLiteHelper.SOURCE_ACTI, acti);
 		values.put(SQLiteHelper.SOURCE_LOBBY, lobby);
-		values.put(SQLiteHelper.SOURCE_LIMIT, limit);
 		long insertID = db.insert(SQLiteHelper.TABLE_SOURCE, null, values);
 
 		/*
 		 * put the same thing into FTS table
 		 */
 		ContentValues search_index = new ContentValues();
-		String index_content = name + " " + addr + " " + acti;
+		String index_content = name + " " + addr + " " + acti + (lobby==0?"":" lobbyist"); /*lobbyist gets a tag for search purpose*/
 		search_index.put(SQLiteHelper.CONTENT, index_content);
 		search_index.put(SQLiteHelper.DOC_ID,insertID);
 		long secondID = db.insert(SQLiteHelper.SOURCE_TABLE_FTS, null, search_index);
 
 		/*
-		 * DEBUG
+		 * Keep this DEBUG here just in case I miss a bug
 		 */
-		android.util.Log.wtf("Just say",index_content);
-
 		if (secondID != insertID) {
-			android.util.Log.wtf("SOMETHING IS WRONG","TERRIBLY WRONG");
+			android.util.Log.wtf("SOURCE_DAO","DOC_ID != SOURCE_ID :SourceDAO.java line 60");
 		}
-
+		
+		/*
+		 * Verify that entry is recorded in table
+		 */
 		Cursor cursor = db.query(SQLiteHelper.TABLE_SOURCE, allColumns,
 				SQLiteHelper.SOURCE_ID + " = " + insertID, null, null, null,
 				null);
-		cursor.moveToFirst();
-		Source newSource = cursorToSource(cursor);
+		Source newSource = null;
+		if (cursor.moveToFirst()) {
+			newSource = cursorToSource(cursor);
+		}
 		cursor.close();
 		return newSource;
 	}
@@ -78,7 +78,6 @@ public class SourceDAO {
 		src.setAddress(cursor.getString(2));
 		src.setActivity(cursor.getString(3));
 		src.setLobby(cursor.getInt(4));
-		src.setLimit(cursor.getDouble(5));
 		return src;
 	}
 
@@ -88,26 +87,29 @@ public class SourceDAO {
 		values.put(SQLiteHelper.SOURCE_ADDR, source.getAddress());
 		values.put(SQLiteHelper.SOURCE_ACTI, source.getActivity());
 		values.put(SQLiteHelper.SOURCE_LOBBY, source.getLobby());
-		values.put(SQLiteHelper.SOURCE_LIMIT, source.getLimit());
 		long updateID = source.getID();
 		updateID = db.update(SQLiteHelper.TABLE_GIFT, values,
 				SQLiteHelper.SOURCE_ID + " = " + updateID, null);
+		
 		//update the index too
 		ContentValues search_index = new ContentValues();
-		search_index.put(SQLiteHelper.CONTENT, source.getName()+" "+ source.getAddress()+ " " + source.getActivity());
+		String index_content = source.getName()+" "+ source.getAddress()+ " " + source.getActivity() + (source.getLobby()==0?"":" lobbyist");
+		search_index.put(SQLiteHelper.CONTENT, index_content);
 		search_index.put(SQLiteHelper.DOC_ID,updateID);
 		long secondID = db.update(SQLiteHelper.SOURCE_TABLE_FTS, search_index, SQLiteHelper.DOC_ID + " = " + updateID,null);
 
 		/*
-		 * DEBUG
+		 * DEBUG .. I just love how true-to-nature the log method name is
 		 */
 		if (secondID != updateID) {
-			android.util.Log.wtf("SOMETHING IS WRONG","TERRIBLY WRONG");
-		}		return updateID;
+			android.util.Log.wtf("SOURCE_DAO","DOC_ID != SOURCE_ID :SourceDAO.java line 102");
+		}
+		
+		return updateID;
 	}
 
 	public double sum(long source_id) {
-		/* build the query */
+		/* build the query 
 		String[] column = new String[] { SQLiteHelper.GIFT_VALUE };
 		String where = SQLiteHelper.GIFT_ID + " = ?";
 		String[] value = new String[] { Long.toString(source_id) };
@@ -121,6 +123,9 @@ public class SourceDAO {
 			cursor.moveToNext();
 		}
 		return result;
+		*/
+		//TODO
+		return 0.0;
 	}
 
 	public void deleteSource(Source src) {
@@ -139,11 +144,12 @@ public class SourceDAO {
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			Source source = cursorToSource(cursor);
-			source.setCurrent(this.sum(source.getID()));
 			srcs.add(source);
 			cursor.moveToNext();
 		}
 		cursor.close();
+		
+		
 		return srcs;
 	}
 
@@ -161,12 +167,10 @@ public class SourceDAO {
 				+SQLiteHelper.CONTENT + " MATCH ?;";
 		String [] argument = {s+"*"};
 		Cursor cursor = db.rawQuery(queryline, argument);
+		
 		if (cursor.moveToFirst()) {
-			android.util.Log.wtf("Iwanna see",String.format("%d",cursor.getColumnCount()));
-
 			while (!cursor.isAfterLast()) {
 				Source source = cursorToSource(cursor);
-				source.setCurrent(this.sum(source.getID()));
 				srcs.add(source);
 				cursor.moveToNext();
 			}

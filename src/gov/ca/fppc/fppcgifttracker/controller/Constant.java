@@ -9,4 +9,5 @@ public class Constant {
 	public static final int EDIT = 1;
 	public static final int NEW = 2;
 	public static final double GIFT_LIMIT = 440.0;
+	public static final double LOBBY_LIMIT = 10.0;
 }

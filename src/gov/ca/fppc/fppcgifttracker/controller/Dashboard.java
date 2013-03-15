@@ -1,9 +1,14 @@
 package gov.ca.fppc.fppcgifttracker.controller;
 
 import gov.ca.fppc.fppcgifttracker.model.GiftDAO;
+import gov.ca.fppc.fppcgifttracker.model.GiftSourceRelationDAO;
 import gov.ca.fppc.fppcgifttracker.model.Source;
 import gov.ca.fppc.fppcgifttracker.model.SourceDAO;
+import gov.ca.fppc.fppcgifttracker.util.SourceComparator;
 import gov.ca.fppc.fppcgifttracker.R;
+
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
@@ -22,15 +27,22 @@ public class Dashboard extends Activity {
 	private SourceDAO sdao;
 	private List<Source> source;
 	private GiftDAO gdao;
+	private GiftSourceRelationDAO sgdao;
 	private EditText searchtext;
 	private ListView sourceList;
 	private final Context c  = this;	
-
+	private int month;
+	private int year;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard);
 
+		/*
+		 * Current month and year:
+		 */
+		this.year = Calendar.getInstance().get(Calendar.YEAR);
+		this.month = Calendar.getInstance().get(Calendar.MONTH);
 		/*
 		 * Connect DAOs (Data access objects)
 		 */
@@ -38,12 +50,17 @@ public class Dashboard extends Activity {
 		sdao.open();
 		gdao = new GiftDAO(this);
 		gdao.open();
+		sgdao = new GiftSourceRelationDAO(this);
+		sgdao.open();
 
 		/*
 		 * Set up the source List
 		 */
 		source = sdao.getAllSource();
-		final ArrayAdapter<Source> adapter = new SourceAdapter(this,source);
+		/* sort it first */
+		Collections.sort(source, new SourceComparator(sgdao));
+		
+		final ArrayAdapter<Source> adapter = new SourceAdapter(this,source,sgdao, this.year, this.month);
 		sourceList = (ListView)this.findViewById(R.id.src_list);
 		sourceList.setAdapter(adapter);
 
@@ -63,7 +80,7 @@ public class Dashboard extends Activity {
 					temp = sdao.getAllSource();
 					android.util.Log.wtf("Happens","hahaha");
 				}
-				a = new SourceAdapter(c, temp);
+				a = new SourceAdapter(c, temp,sgdao, year, month);
 				sourceList.setAdapter(a);
 
 			}
@@ -89,5 +106,12 @@ public class Dashboard extends Activity {
 		intent.putExtra(Constant.MODE, Constant.NEW);
 
 		this.startActivity(intent);
+	}
+	
+	@Override
+	public void onDestroy() {
+		sdao.close();
+		gdao.close();
+		sgdao.close();
 	}
 }

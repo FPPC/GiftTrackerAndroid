@@ -8,9 +8,9 @@ public class Gift implements Serializable {
 	 */
 	private static final long serialVersionUID = 1736938716919278842L;
 	private long id;
-	private long sourceId;
-	private long date;
-	private double value;
+	private int year;
+	private int month;
+	private int day;
 	private String description;
 
 	public long getID() {
@@ -21,30 +21,31 @@ public class Gift implements Serializable {
 		this.id = id;
 	}
 
-	public long getSourceId() {
-		return sourceId;
+	public int getYear() {
+		return this.year;
+	}
+	
+	public void setYear(int year) {
+		this.year = year;
 	}
 
-	public void setSourceId(long sourceId) {
-		this.sourceId = sourceId;
+	public int getMonth() {
+		return this.month;
+	}
+	
+	public void setMonth(int month) {
+		this.month = month;
+	}
+	
+	public int getDay() {
+		return this.day;
+	}
+	
+	public void setDay(int day) {
+		this.day = day;
 	}
 
-	public long getDate() {
-		return date;
-	}
-
-	public void setDate(long date) {
-		this.date = date;
-	}
-
-	public double getValue() {
-		return value;
-	}
-
-	public void setValue(double value) {
-		this.value = value;
-	}
-
+	
 	public String getDescription() {
 		return description;
 	}
