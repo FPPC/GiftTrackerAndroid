@@ -75,10 +75,10 @@ public class Dashboard extends Activity {
 				ArrayAdapter<Source> a;
 				if (s.toString().length() > 0) {
 					temp = sdao.filterSource(s.toString());
-					android.util.Log.wtf("Yolo","oloy");
+					/* DEBUG android.util.Log.wtf("Yolo","oloy");*/
 				} else {
 					temp = sdao.getAllSource();
-					android.util.Log.wtf("Happens","hahaha");
+					/* DEBUG android.util.Log.wtf("Happens","hahaha");*/
 				}
 				a = new SourceAdapter(c, temp,sgdao, year, month);
 				sourceList.setAdapter(a);

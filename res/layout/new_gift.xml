@@ -24,7 +24,7 @@
             android:text="Gift description:" />
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/gft_description"
             style="@style/summary_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,16 +38,69 @@
             style="@style/summary_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gift description:" />
+            android:text="Gift date" />
 
-        <EditText
-            android:id="@+id/EditText01"
-            style="@style/summary_text"
+        <LinearLayout
+            android:id="@+id/gift_date_wrapper"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/gft_month"
+                style="@style/summary_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/TextView03"
+                style="@style/summary_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/" />
+
+            <EditText
+                android:id="@+id/gft_day"
+                style="@style/summary_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/TextView04"
+                style="@style/summary_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/" />
+
+            <EditText
+                android:id="@+id/gft_year"
+                style="@style/summary_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/date_error"
+            style="@style/summary_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10" />
+            android:text="@string/please_enter_a_valid_date" />
 
     </LinearLayout>
+
+    <AutoCompleteTextView
+        android:id="@+id/source_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" />
 
     <ListView
         android:id="@+id/src_list"
@@ -63,20 +116,20 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/new_gift_cancel"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Recent Items" />
+            android:text="Cancel" />
 
         <Button
-            android:id="@+id/dashboard_add_btn"
+            android:id="@+id/new_gift_save"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add Source" />
+            android:text="Save" />
     </LinearLayout>
 
 </LinearLayout>
