@@ -92,9 +92,17 @@
             style="@style/summary_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/please_enter_a_valid_date" />
+            android:text="@string/please_enter_a_valid_date"
+            android:textColor="@color/error_red" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/TextView02"
+        style="@style/summary_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gift source(s)" />
 
     <AutoCompleteTextView
         android:id="@+id/source_select"

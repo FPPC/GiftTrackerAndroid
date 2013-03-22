@@ -5,4 +5,5 @@
 	<color name="white">#fff</color>
 	<color name="black">#000</color>
 	<color name="dollar_green">#1c661a</color>
+	<color name="error_red">#a30505</color>
 </resources>

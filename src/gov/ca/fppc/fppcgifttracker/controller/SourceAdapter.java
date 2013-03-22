@@ -29,7 +29,7 @@ public class SourceAdapter extends ArrayAdapter<Source>{
 		this.year = year;
 		this.month = month;
 	}
-	
+		
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
@@ -68,5 +68,6 @@ public class SourceAdapter extends ArrayAdapter<Source>{
 		TextView s_name;
 		TextView s_business;
 		TextView s_sum;
+		
 	}
 }

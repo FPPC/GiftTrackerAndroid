@@ -16,7 +16,8 @@
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="search_hint">Search source</string>
-    <string name="gift_limit_">Gift limit:</string>
+    <string name="gift_limit_">Limit left:</string>
     <string name="please_enter_a_valid_date">Please enter a valid date</string>
+    <string name="search_source">Search source</string>
 
 </resources>

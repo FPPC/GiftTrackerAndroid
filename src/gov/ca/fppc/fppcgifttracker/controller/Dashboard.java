@@ -60,9 +60,15 @@ public class Dashboard extends Activity {
 		/* sort it first */
 		Collections.sort(source, new SourceComparator(sgdao));
 		
-		final ArrayAdapter<Source> adapter = new SourceAdapter(this,source,sgdao, this.year, this.month);
+		final ArrayAdapter<Source> adapter = new SourceAdapter(this,source,sgdao, 
+				this.year, this.month);
 		sourceList = (ListView)this.findViewById(R.id.src_list);
 		sourceList.setAdapter(adapter);
+		
+		/*setup fragment*/
+		SourceListFragment sourceListFrag = (SourceListFragment) getFragmentManager()
+				.findFragmentById(R.id.)
+		
 
 		/*
 		 * Set up the search bar

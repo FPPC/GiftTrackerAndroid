@@ -23,6 +23,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int black=0x7f040003;
         public static final int black_overlay=0x7f040000;
         public static final int dollar_green=0x7f040004;
+        public static final int error_red=0x7f040005;
         public static final int white=0x7f040002;
     }
     public static final class drawable {
@@ -35,6 +36,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int TextView04=0x7f07000d;
         public static final int activity=0x7f070013;
         public static final int button1=0x7f070010;
+        public static final int contribution_box=0x7f07002b;
+        public static final int contribution_label=0x7f07002a;
         public static final int dashboard_add_btn=0x7f070011;
         public static final int date_error=0x7f07001a;
         public static final int general_header=0x7f070012;
@@ -78,6 +81,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int new_gift=0x7f030002;
         public static final int new_source=0x7f030003;
         public static final int source_item_view=0x7f030004;
+        public static final int source_item_view_candidate=0x7f030005;
+        public static final int source_item_view_in_new_gift=0x7f030006;
+        public static final int source_search_fragment=0x7f030007;
     }
     public static final class string {
         public static final int add=0x7f050006;
@@ -96,6 +102,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int please_enter_a_valid_date=0x7f050010;
         public static final int save=0x7f05000c;
         public static final int search_hint=0x7f05000e;
+        public static final int search_source=0x7f050011;
         public static final int this_month_=0x7f050005;
     }
     public static final class style {

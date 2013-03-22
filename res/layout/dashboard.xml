@@ -92,25 +92,15 @@
         </TableRow>
     </TableLayout>
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/search_bar"
+        style="@style/summary_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black_overlay" >
-
-        <EditText
-            android:id="@+id/search_bar"
-            style="@style/summary_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Search source"
-            android:maxLines="1" >
-
-            <requestFocus />
-        </EditText>
-
-    </LinearLayout>
+        android:ems="10"
+        android:hint="Search source"
+        android:maxLines="1" >
+    </EditText>
 
     <ListView
         android:id="@+id/src_list"

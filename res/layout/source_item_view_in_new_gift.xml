@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_weight="7"
+        android:orientation="vertical"
+        android:padding="8dp" >
+
+        <TextView
+            android:id="@+id/s_name"
+            style="@style/summary_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mickey Mouse"
+            android:textColor="@color/FPPC_blue" />
+
+        <TextView
+            android:id="@+id/s_business"
+            style="@style/summary_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Entertainer"
+            android:textColor="@color/black_overlay" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/contribution_label"
+        style="@style/summary_text"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:gravity="center"
+        android:text="Contribution:"
+        android:textColor="@color/black_overlay" />
+
+    <EditText
+        android:id="@+id/contribution_box"
+        style="@style/summary_text"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:lines="1" >
+
+        <requestFocus />
+    </EditText>
+
+</LinearLayout>
