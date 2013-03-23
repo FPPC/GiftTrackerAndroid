@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -92,24 +93,14 @@
         </TableRow>
     </TableLayout>
 
-    <EditText
-        android:id="@+id/search_bar"
-        style="@style/summary_text"
+    <fragment
+        android:id="@+id/source_list_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Search source"
-        android:maxLines="1" >
-    </EditText>
-
-    <ListView
-        android:id="@+id/src_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="0px"
         android:layout_weight="1"
-        android:background="@color/white"
-        android:scrollbars="vertical" >
-    </ListView>
+        class="gov.ca.fppc.fppcgifttracker.controller.SourceListFragment"
+        tools:layout="@layout/source_search_fragment" >
+    </fragment>
 
     <LinearLayout
         android:layout_width="match_parent"

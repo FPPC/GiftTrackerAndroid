@@ -18,6 +18,6 @@
     <string name="search_hint">Search source</string>
     <string name="gift_limit_">Limit left:</string>
     <string name="please_enter_a_valid_date">Please enter a valid date</string>
-    <string name="search_source">Search source</string>
+    <string name="search_source">Search for source</string>
 
 </resources>

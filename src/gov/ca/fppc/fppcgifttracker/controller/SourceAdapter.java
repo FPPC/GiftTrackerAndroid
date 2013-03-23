@@ -47,7 +47,7 @@ public class SourceAdapter extends ArrayAdapter<Source>{
 		}
 		Source sc = source.get(position);
 		vholder.s_name.setText(sc.getName());
-		android.util.Log.wtf("work here",sc.getName());
+		//android.util.Log.wtf("work here",sc.getName());
 		String job;
 		double limit_left = sc.getLimit();
 		if (sc.getLobby() != 0) {
