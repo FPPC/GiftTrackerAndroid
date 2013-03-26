@@ -64,6 +64,10 @@ public class SourceAdapter extends ArrayAdapter<Source>{
 		return rowView;
 	}
 	
+	public Source getSource(int position) {
+		return this.source.get(position);
+	}
+	
 	static private class SourceViewHolder {
 		TextView s_name;
 		TextView s_business;

@@ -36,8 +36,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int TextView04=0x7f07000d;
         public static final int activity=0x7f070012;
         public static final int button1=0x7f07000f;
-        public static final int contribution_box=0x7f07002b;
-        public static final int contribution_label=0x7f07002a;
         public static final int dashboard_add_btn=0x7f070010;
         public static final int date_error=0x7f070019;
         public static final int general_header=0x7f070011;
@@ -49,13 +47,15 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int gift_date_wrapper=0x7f070015;
         public static final int imageView1=0x7f070013;
         public static final int lobbyist=0x7f070023;
-        public static final int new_gift_cancel=0x7f07001c;
+        public static final int new_gift_add_source=0x7f07001c;
+        public static final int new_gift_cancel=0x7f07001b;
         public static final int new_gift_save=0x7f07001d;
         public static final int new_source_button_wrap=0x7f070024;
-        public static final int s_business=0x7f070028;
-        public static final int s_name=0x7f070027;
-        public static final int s_sum=0x7f070029;
-        public static final int search_bar=0x7f07002c;
+        public static final int s_business=0x7f070029;
+        public static final int s_name=0x7f070028;
+        public static final int s_sum=0x7f07002a;
+        public static final int search_bar=0x7f07002b;
+        public static final int selected_src_list=0x7f07001a;
         public static final int source_address_input=0x7f070021;
         public static final int source_business_input=0x7f070022;
         public static final int source_business_input_wrapper=0x7f07001e;
@@ -63,8 +63,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int source_input_save_btn=0x7f070026;
         public static final int source_list_fragment=0x7f07000e;
         public static final int source_name_input=0x7f070020;
-        public static final int source_select=0x7f07001a;
-        public static final int src_list=0x7f07001b;
+        public static final int source_select_fragment=0x7f070027;
+        public static final int src_list=0x7f07002c;
         public static final int src_name_label=0x7f07001f;
         public static final int tab1=0x7f070001;
         public static final int tableRow1=0x7f070002;
@@ -81,10 +81,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int general_header=0x7f030001;
         public static final int new_gift=0x7f030002;
         public static final int new_source=0x7f030003;
-        public static final int source_item_view=0x7f030004;
-        public static final int source_item_view_candidate=0x7f030005;
-        public static final int source_item_view_in_new_gift=0x7f030006;
-        public static final int source_search_fragment=0x7f030007;
+        public static final int select_source=0x7f030004;
+        public static final int source_item_view=0x7f030005;
+        public static final int source_search_fragment=0x7f030006;
     }
     public static final class string {
         public static final int add=0x7f050006;

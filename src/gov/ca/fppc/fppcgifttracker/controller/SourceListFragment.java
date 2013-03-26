@@ -11,18 +11,20 @@ import gov.ca.fppc.fppcgifttracker.model.Source;
 import gov.ca.fppc.fppcgifttracker.model.SourceDAO;
 import gov.ca.fppc.fppcgifttracker.util.SourceComparator;
 import android.app.Activity;
-import android.app.Fragment;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-public class SourceListFragment extends Fragment{
+public class SourceListFragment extends DialogFragment{
 
 	private SourceDAO sdao;
 	private GiftDAO gdao;
@@ -33,25 +35,13 @@ public class SourceListFragment extends Fragment{
 	private EditText searchtext;
 	private ListView sourceList;
 	private Activity parent;
+	
+	private ListItemClick callback;
 
-	@Override
-	public void onAttach(Activity parent) {
-		super.onAttach(parent);
-		this.parent = parent;
+	public interface ListItemClick {
+		public void processChosenSource(Source src);
 	}
-	@Override
-	public void onCreate(Bundle b) {
-		super.onCreate(b);
-		/*
-		 * Connect DAOs (Data access objects)
-		 */
-		sdao = new SourceDAO(parent);
-		sdao.open();
-		gdao = new GiftDAO(parent);
-		gdao.open();
-		sgdao = new GiftSourceRelationDAO(parent);
-		sgdao.open();
-	}
+
 	@Override
 	public void onDestroy() {
 		sdao.close();
@@ -59,12 +49,38 @@ public class SourceListFragment extends Fragment{
 		sgdao.close();
 		super.onDestroy();
 	}
-
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			callback = (ListItemClick) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString() + " must implement ListItemClick interface");
+		}
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
 			Bundle savedInstanceState) {
+		
+		/*
+		 * Connect DAOs (Data access objects)
+		 */
+		this.parent = getActivity();
+		sdao = new SourceDAO(parent);
+		sdao.open();
+		gdao = new GiftDAO(parent);
+		gdao.open();
+		sgdao = new GiftSourceRelationDAO(parent);
+		sgdao.open();
+		
 		View view = inflater.inflate(R.layout.source_search_fragment, 
 				container, false);
+		/* view handle should be done here */
+		this.sourceList = (ListView) view.findViewById(R.id.src_list);
+		this.searchtext = (EditText) view.findViewById(R.id.search_bar);
+		setup();
 		return view;
 	}
 
@@ -74,23 +90,22 @@ public class SourceListFragment extends Fragment{
 		 */
 		this.year = Calendar.getInstance().get(Calendar.YEAR);
 		this.month = Calendar.getInstance().get(Calendar.MONTH);
-		
+
 		/*
 		 * Set up the source List
 		 */
-		source = sdao.getAllSource();
+		source = this.sdao.getAllSource();
 		/* sort it first */
 		Collections.sort(source, new SourceComparator(sgdao));
 
 		ArrayAdapter<Source> adapter = new SourceAdapter(parent,source,sgdao, 
 				this.year, this.month);
-		sourceList = (ListView)parent.findViewById(R.id.src_list);
+		if (sourceList==null) {
+			android.util.Log.wtf("sourcelist","null");
+		}
+		
 		sourceList.setAdapter(adapter);
-
-		/*
-		 * Set up the search bar
-		 */
-		searchtext = (EditText) parent.findViewById(R.id.search_bar);
+		
 		searchtext.addTextChangedListener(new TextWatcher() {
 
 			public void afterTextChanged(Editable s) {
@@ -110,6 +125,14 @@ public class SourceListFragment extends Fragment{
 			}
 			public void beforeTextChanged(CharSequence s, int start, int before, int count) {}
 			public void onTextChanged(CharSequence s, int start, int before, int count) {}			
+		});
+		/* on item click listener*/
+		sourceList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				SourceAdapter a = (SourceAdapter) sourceList.getAdapter();
+				callback.processChosenSource(a.getSource(position));
+			}
 		});
 	}
 

@@ -5,7 +5,7 @@ import gov.ca.fppc.fppcgifttracker.model.GiftSourceRelationDAO;
 import gov.ca.fppc.fppcgifttracker.model.Source;
 import gov.ca.fppc.fppcgifttracker.model.SourceDAO;
 import gov.ca.fppc.fppcgifttracker.R;
-import java.util.Calendar;
+//import java.util.Calendar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,8 +17,8 @@ public class Dashboard extends Activity {
 	private GiftDAO gdao;
 	private GiftSourceRelationDAO sgdao;
 
-	private int month;
-	private int year;
+	//private int month;
+	//private int year;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,8 +26,8 @@ public class Dashboard extends Activity {
 		/*
 		 * Current month and year:
 		 */
-		this.year = Calendar.getInstance().get(Calendar.YEAR);
-		this.month = Calendar.getInstance().get(Calendar.MONTH);
+		//this.year = Calendar.getInstance().get(Calendar.YEAR);
+		//this.month = Calendar.getInstance().get(Calendar.MONTH);
 		/*
 		 * Connect DAOs (Data access objects)
 		 */
@@ -40,9 +40,6 @@ public class Dashboard extends Activity {
 		/*setup fragment*/
 		SourceListFragment sourceListFrag = (SourceListFragment) getFragmentManager()
 				.findFragmentById(R.id.source_list_fragment);
-		if (sourceListFrag!=null && sourceListFrag.isInLayout()){
-			sourceListFrag.setup();
-		}
 	
 		/*
 		 * Set on click for add source button
