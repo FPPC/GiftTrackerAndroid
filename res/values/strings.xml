@@ -19,5 +19,9 @@
     <string name="gift_limit_">Limit left:</string>
     <string name="please_enter_a_valid_date">Please enter a valid date</string>
     <string name="search_source">Search for source</string>
+    <string name="what_would_you_like_to_do_">What would you like to do?</string>
+    <string name="edit_source">Edit Source</string>
+    <string name="add_gift">Add Gift</string>
+    <string name="list_of_gift">List of gift</string>
 
 </resources>

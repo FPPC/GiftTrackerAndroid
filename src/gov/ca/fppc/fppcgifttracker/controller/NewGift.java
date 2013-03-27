@@ -42,7 +42,8 @@ public class NewGift extends Activity {
 	private GiftSourceRelationDAO sgdao;
 	private SourceDAO sdao;
 	private int mode;
-	
+	private long gid;
+
 	/*save and load*/
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -50,17 +51,18 @@ public class NewGift extends Activity {
 		savedInstanceState.putSerializable("source_list", (Serializable) this.selected);
 		savedInstanceState.putSerializable("contribution", (Serializable) this.contribution);
 	}
-	@Override
-	public void onRestoreInstanceState(Bundle saved){
 
-	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.new_gift);
 
 		/*init the source list */
-		selected = new ArrayList<Source>();
+		if (savedInstanceState ==null) {
+			selected = new ArrayList<Source>();
+		} else {
+			selected = (List<Source>) savedInstanceState.getSerializable("source_list");
+		}
 
 		/* get view handles */
 		dateError = (TextView)this.findViewById(R.id.date_error);
@@ -110,7 +112,7 @@ public class NewGift extends Activity {
 		processMode(mode);
 
 		/*set the selected list adapter */
-		SourceAdapter srcAdapt = new SourceAdapter(this, selected, sgdao,today.get(Calendar.YEAR),today.get(Calendar.MONTH));
+		ContributionAdapter srcAdapt = new ContributionAdapter(this, selected, sgdao, gid);
 		selectedList.setAdapter(srcAdapt);
 
 		/* set the add source button */
@@ -127,8 +129,10 @@ public class NewGift extends Activity {
 		if (resultCode == RESULT_OK && requestCode == Constant.APPEND_SOURCE) {
 			if (data.hasExtra(Constant.SRC)) {
 				Source getback = (Source) data.getSerializableExtra(Constant.SRC);
-				selected.add(getback);
-				SourceAdapter srcAdapt = new SourceAdapter(this, selected, sgdao,today.get(Calendar.YEAR),today.get(Calendar.MONTH));
+				if (!selected.contains(getback)) {
+					selected.add(getback);
+				}
+				ContributionAdapter srcAdapt = new ContributionAdapter(this, selected, sgdao, gid);
 				selectedList.setAdapter(srcAdapt);
 			}
 		}
@@ -153,7 +157,13 @@ public class NewGift extends Activity {
 	}
 
 	private void processNew() {
-		//TODO
+		this.gid = -1;
+		if (i.hasExtra(Constant.SRC)) {
+			Source src = (Source)i.getSerializableExtra(Constant.SRC);
+			if (!selected.contains(src)) {
+				selected.add(src);
+			}
+		}
 	}
 	private void processEdit() {
 		//TODO

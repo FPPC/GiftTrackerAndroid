@@ -48,15 +48,13 @@ public class NewSource extends Activity {
 				removeForm(v);
 			}
 		});
-		
+
 		save.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				saveForm(v);
 			}
 		});
-		
-		// TODO Auto-generated method stub
 
 		/*fill out the form if it's an edit, not a new*/
 		if (source != null || mode == Constant.EDIT) {
@@ -75,9 +73,8 @@ public class NewSource extends Activity {
 		String name = src_name.getText().toString();
 		String addr = src_address.getText().toString();
 		String acti = src_business.getText().toString();
-		
+
 		int lobby = (lobbyist.isChecked()?1:0);
-		Intent i;
 		if (mode == Constant.EDIT) {
 			source.setName(name);
 			source.setAddress(addr);
@@ -85,33 +82,20 @@ public class NewSource extends Activity {
 			source.setLobby(lobby);
 
 			sdao.updateSource(source);
-			/*
-			 * quick patch for test,
-			 * should direct back to the page before the edit, not to dashboard
-			 */
-			i = new Intent(this,Dashboard.class);
-			
+			finish();
+
 		} else {
 			/*new source case*/
-			Source log_id = sdao.createSource(name, addr, acti, lobby);
-			android.util.Log.wtf("ADD ENTRY", ""+log_id.getID()+" "+log_id.getName());
-			i = new Intent(this,Dashboard.class);
+			sdao.createSource(name, addr, acti, lobby);
+			finish();
 		}
-		this.startActivity(i);
 	}
 
 	public void removeForm(View button) {
-		Intent i;
 		if (mode == Constant.EDIT) {
 			sdao.deleteSource(source);
-			/*
-			 * quick patching for test, will need fix later TODO
-			 */
-			i = new Intent(this,Dashboard.class);
-		} else {
-			i = new Intent(this,Dashboard.class);
 		}
-		this.startActivity(i);
+		finish();
 	}
 
 	@Override

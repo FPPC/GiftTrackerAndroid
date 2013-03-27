@@ -88,7 +88,7 @@ public class SourceDAO {
 		values.put(SQLiteHelper.SOURCE_ACTI, source.getActivity());
 		values.put(SQLiteHelper.SOURCE_LOBBY, source.getLobby());
 		long updateID = source.getID();
-		updateID = db.update(SQLiteHelper.TABLE_GIFT, values,
+		db.update(SQLiteHelper.TABLE_SOURCE, values,
 				SQLiteHelper.SOURCE_ID + " = " + updateID, null);
 		
 		//update the index too
@@ -96,36 +96,8 @@ public class SourceDAO {
 		String index_content = source.getName()+" "+ source.getAddress()+ " " + source.getActivity() + (source.getLobby()==0?"":" lobbyist");
 		search_index.put(SQLiteHelper.CONTENT, index_content);
 		search_index.put(SQLiteHelper.DOC_ID,updateID);
-		long secondID = db.update(SQLiteHelper.SOURCE_TABLE_FTS, search_index, SQLiteHelper.DOC_ID + " = " + updateID,null);
-
-		/*
-		 * DEBUG .. I just love how true-to-nature the log method name is
-		 */
-		if (secondID != updateID) {
-			android.util.Log.wtf("SOURCE_DAO","DOC_ID != SOURCE_ID :SourceDAO.java line 102");
-		}
-		
+		db.update(SQLiteHelper.SOURCE_TABLE_FTS, search_index, SQLiteHelper.DOC_ID + " = " + updateID,null);
 		return updateID;
-	}
-
-	public double sum(long source_id) {
-		/* build the query 
-		String[] column = new String[] { SQLiteHelper.GIFT_VALUE };
-		String where = SQLiteHelper.GIFT_ID + " = ?";
-		String[] value = new String[] { Long.toString(source_id) };
-
-		Cursor cursor = db.query(SQLiteHelper.TABLE_GIFT, column, where, value,
-				null, null, null);
-		double result = 0.0;
-		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
-			result += cursor.getDouble(0);
-			cursor.moveToNext();
-		}
-		return result;
-		*/
-		//TODO
-		return 0.0;
 	}
 
 	public void deleteSource(Source src) {

@@ -4,6 +4,7 @@
         <ignore path="res\layout\general_header.xml" />
     </issue>
     <issue id="HardcodedText">
+        <ignore path="res\layout\contribution_list.xml" />
         <ignore path="res\layout\dashboard.xml" />
         <ignore path="res\layout\general_header.xml" />
         <ignore path="res\layout\new_gift.xml" />

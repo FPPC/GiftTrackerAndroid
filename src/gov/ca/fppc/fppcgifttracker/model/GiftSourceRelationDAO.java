@@ -28,13 +28,24 @@ public class GiftSourceRelationDAO {
 		dbhelper.close();
 	}
 
+	public double getValue(long gid, long sid) {
+		String[] column = new String[] {SQLiteHelper.VALUE};
+		String where = SQLiteHelper.GIFT_ID + " = ? AND "+ SQLiteHelper.SOURCE_ID + " = ?";
+		String[] value = new String[] {Long.toString(gid),Long.toString(sid)};
+		Cursor c = db.query(SQLiteHelper.TABLE_GIVING, column, where, value,null,null,null);
+		if (c.moveToFirst()) {
+			return c.getDouble(0);
+		}
+		return 0.0;
+	}
+	
 	public double giftValue(long gift_id) {
 		/* build the query*/ 
 		String[] column = new String[] { SQLiteHelper.VALUE };
 		String where = SQLiteHelper.GIFT_ID + " = ?";
 		String[] value = new String[] { Long.toString(gift_id) };
 
-		Cursor cursor = db.query(SQLiteHelper.TABLE_GIFT, column, where, value,
+		Cursor cursor = db.query(SQLiteHelper.TABLE_GIVING, column, where, value,
 				null, null, null);
 		double result = 0.0;
 		if (cursor.moveToFirst()) {
