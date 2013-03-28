@@ -15,14 +15,18 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class Dashboard extends Activity implements SelectOption, ListItemClick {
+public class Dashboard extends Activity implements SelectOption, 
+ListItemClick, OnItemSelectedListener {
 	private SourceDAO sdao;
 	private GiftDAO gdao;
 	private GiftSourceRelationDAO sgdao;
@@ -36,7 +40,8 @@ public class Dashboard extends Activity implements SelectOption, ListItemClick {
 	private Source src;
 	private int month;
 	private int year;
-	
+	private SourceListFragment sourceListFrag;
+
 	@Override
 	protected void onSaveInstanceState(Bundle saved) {
 		super.onSaveInstanceState(saved);
@@ -55,7 +60,7 @@ public class Dashboard extends Activity implements SelectOption, ListItemClick {
 		gdao.open();
 		sgdao = new GiftSourceRelationDAO(this);
 		sgdao.open();
-		
+
 		/*get current month/year */
 		year = Calendar.getInstance().get(Calendar.YEAR);
 		if (savedInstanceState == null) {
@@ -63,7 +68,7 @@ public class Dashboard extends Activity implements SelectOption, ListItemClick {
 		} else {
 			month = savedInstanceState.getInt("month");
 		}
-		
+
 		/* get view handles */
 		monthDisplay = (TextView)this.findViewById(R.id.month_display);
 		yearDisplay = (TextView)this.findViewById(R.id.year_display);
@@ -75,6 +80,9 @@ public class Dashboard extends Activity implements SelectOption, ListItemClick {
 		/*update the summary display*/
 		updateDashboard();
 
+		/*setup spinner*/
+		setupSpinner();
+
 		/*
 		 * Set on click for add source button
 		 */
@@ -84,13 +92,24 @@ public class Dashboard extends Activity implements SelectOption, ListItemClick {
 				addButton(v);
 			}
 		});
-		
+
 		/*setup fragment*/
-			SourceListFragment sourceListFrag = (SourceListFragment) getFragmentManager()
-					.findFragmentById(R.id.source_list_fragment);
-			sourceListFrag.updateMonthYear(month, year);
+		sourceListFrag = (SourceListFragment) getFragmentManager()
+				.findFragmentById(R.id.source_list_fragment);
+		sourceListFrag.updateMonthYear(month, year);
 	}
 
+	private void setupSpinner() {
+		String yearDisplayText = "Gift received in "+ year+":";
+		monthDisplay.setText("Gift received in:");
+		yearDisplay.setText(yearDisplayText);
+		ArrayAdapter<CharSequence> spinnerAdapter = 
+				ArrayAdapter.createFromResource(this, R.array.months, R.layout.spinner_item);
+		spinnerAdapter.setDropDownViewResource(R.layout.spinner_list);
+		monthSpinner.setAdapter(spinnerAdapter);
+		monthSpinner.setSelection(month-1);
+		monthSpinner.setOnItemSelectedListener(this);
+	}
 	private void addButton (View button) {
 		Intent intent = new Intent(this, NewSource.class);
 		intent.putExtra(Constant.SRC, (Source)null);
@@ -133,21 +152,19 @@ public class Dashboard extends Activity implements SelectOption, ListItemClick {
 			break;
 		}
 	}
+	/*interface OnItemSelectedListener*/
+	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+		this.month = pos+1;
+		updateDashboard();
+		sourceListFrag.updateMonthYear(month, year);
+	}
+	public void onNothingSelected(AdapterView<?> parent) {
+
+	}
 
 	private void updateDashboard() {
 		double monthValue = sgdao.totalReceived(year, this.month);
 		double yearValue = sgdao.totalReceived(year);
-		//String monthDisplayText = "Gifts received in " + MiscUtil.month_name(month)+":";
-		String yearDisplayText = "Gift received in "+ year+":";
-		//monthDisplay.setText(monthDisplayText);
-		//TODO using spinner now
-		monthDisplay.setText("Gift received in:");
-		ArrayAdapter<CharSequence> spinnerAdapter = 
-				ArrayAdapter.createFromResource(this, R.array.months, R.layout.spinner_item);
-		spinnerAdapter.setDropDownViewResource(R.layout.spinner_list);
-		monthSpinner.setAdapter(spinnerAdapter);
-		
-		yearDisplay.setText(yearDisplayText);
 		int mCount = gdao.getGiftCount(month, year);
 		int yCount = gdao.getGiftCount(year);
 		monthSum.setText(String.format("$%.2f", monthValue));
@@ -155,7 +172,7 @@ public class Dashboard extends Activity implements SelectOption, ListItemClick {
 		monthCount.setText(String.format("%d gift(s)",mCount));
 		yearCount.setText(String.format("%d gift(s)",yCount));
 	}
-	
+
 	private void editSource() {
 		Intent intent = new Intent(this, NewSource.class);
 		intent.putExtra(Constant.SRC, this.src);
