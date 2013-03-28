@@ -12,7 +12,7 @@
         android:padding="8dp" >
 
         <TextView
-            android:id="@+id/s_name"
+            android:id="@+id/gift_description"
             style="@style/summary_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
             android:textColor="@color/FPPC_blue" />
 
         <TextView
-            android:id="@+id/s_business"
+            android:id="@+id/date"
             style="@style/summary_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

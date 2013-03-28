@@ -17,10 +17,6 @@ public class SourceAdapter extends ArrayAdapter<Source>{
 	private GiftSourceRelationDAO lookup;
 	private int year;
 	private int month;
-	/*
-	 * Make comparator for sort
-	 * Sort by allowance left
-	 */
 	
 	public SourceAdapter(Context context, List<Source> source, GiftSourceRelationDAO lookup, int year, int month) {
 		super(context, R.layout.source_item_view,source);
@@ -45,9 +41,9 @@ public class SourceAdapter extends ArrayAdapter<Source>{
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			rowView = inflater.inflate(R.layout.source_item_view, parent, false);
 			vholder = new SourceViewHolder();
-			vholder.s_name=(TextView) rowView.findViewById(R.id.s_name);
-			vholder.s_business=(TextView) rowView.findViewById(R.id.s_business);
-			vholder.s_sum=(TextView) rowView.findViewById(R.id.s_sum);
+			vholder.s_name=(TextView) rowView.findViewById(R.id.gift_description);
+			vholder.s_business=(TextView) rowView.findViewById(R.id.date);
+			vholder.s_sum=(TextView) rowView.findViewById(R.id.value);
 			rowView.setTag(vholder);
 		} else {
 			vholder = (SourceViewHolder) rowView.getTag();

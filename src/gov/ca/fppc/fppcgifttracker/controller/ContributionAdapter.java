@@ -41,8 +41,8 @@ public class ContributionAdapter extends ArrayAdapter<Source>{
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			rowView = inflater.inflate(R.layout.contribution_list, parent, false);
 			vholder = new ContributionViewHolder();
-			vholder.s_name=(TextView) rowView.findViewById(R.id.s_name);
-			vholder.s_business=(TextView) rowView.findViewById(R.id.s_business);
+			vholder.s_name=(TextView) rowView.findViewById(R.id.gift_description);
+			vholder.s_business=(TextView) rowView.findViewById(R.id.date);
 			vholder.s_contribution = (EditText) rowView.findViewById(R.id.contribution);
 			rowView.setTag(vholder);
 		} else {

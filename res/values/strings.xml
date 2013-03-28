@@ -36,5 +36,6 @@
         <item>September</item>
         <item>December</item>
     </string-array>
+        <string name="search_gift">Search gift</string>
 
 </resources>

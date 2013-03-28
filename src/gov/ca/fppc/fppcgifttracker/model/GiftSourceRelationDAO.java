@@ -1,5 +1,8 @@
 package gov.ca.fppc.fppcgifttracker.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -24,6 +27,30 @@ public class GiftSourceRelationDAO {
 		db = dbhelper.getWritableDatabase();
 	}
 
+	public List<String> listOfDonor(long gid) {
+		ArrayList<String> result = new ArrayList<String>();
+		/*raw query builder */
+		/*
+		 * SELECT S.SOURCE_NAME 
+		 * FROM TABLE_SOURCE S JOIN TABLE_GIVING G 
+		 * ON G.SOURCE_ID = S.SOURCE_ID
+		 * AND G.GIFT_ID = ?
+		 */
+		String query = "SELECT S."+SQLiteHelper.SOURCE_NAME+" "
+				+"FROM "+SQLiteHelper.TABLE_SOURCE+" S JOIN "+SQLiteHelper.TABLE_GIVING+" G "
+				+"ON G."+SQLiteHelper.SOURCE_ID+" = S."+SQLiteHelper.SOURCE_ID+" "
+				+"AND G."+SQLiteHelper.GIFT_ID+" = ?";
+		String [] args = {""+gid};
+		Cursor cursor = db.rawQuery(query, args);
+		if (cursor.moveToFirst()) {
+			while (!cursor.isAfterLast()) {
+				result.add(cursor.getString(0));
+				cursor.moveToNext();
+			}
+		}
+		return result;
+	}
+	
 	public void close() {
 		dbhelper.close();
 	}
