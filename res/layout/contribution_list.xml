@@ -34,14 +34,14 @@
         style="@style/summary_text"
         android:layout_width="0px"
         android:layout_height="match_parent"
-        android:layout_weight="3"
+        android:layout_weight="4"
         android:gravity="center"
         android:text="Contribution"
         android:textColor="@color/black_overlay" />
 
     <EditText
         android:id="@+id/contribution"
-        style="@style/summary_text"
+        style="@style/summary_text.editcenter"
         android:layout_width="0px"
         android:layout_height="wrap_content"
         android:layout_weight="3"

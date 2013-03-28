@@ -36,6 +36,7 @@ public class DashboardOption extends DialogFragment {
 		View view = inflater.inflate(R.layout.edit_or_new_gift_fragment,container,false);
 		this.edit = (Button) view.findViewById(R.id.edit_source_btn);
 		this.add = (Button) view.findViewById(R.id.add_gift_btn);
+		this.getDialog().setTitle("What would you like to do?");
 		
 		edit.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {

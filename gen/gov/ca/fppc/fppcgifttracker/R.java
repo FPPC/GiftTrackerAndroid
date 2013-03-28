@@ -34,61 +34,62 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class id {
         public static final int TextView01=0x7f080002;
-        public static final int TextView02=0x7f080024;
-        public static final int TextView03=0x7f080010;
-        public static final int TextView04=0x7f080020;
-        public static final int activity=0x7f08001a;
+        public static final int TextView02=0x7f080025;
+        public static final int TextView03=0x7f080011;
+        public static final int TextView04=0x7f080021;
+        public static final int activity=0x7f08001b;
         public static final int add_gift_btn=0x7f080017;
-        public static final int button1=0x7f080013;
+        public static final int button1=0x7f080014;
         public static final int contribution=0x7f080003;
-        public static final int dashboard_add_btn=0x7f080014;
-        public static final int date_error=0x7f080022;
+        public static final int dashboard_add_btn=0x7f080015;
+        public static final int date_error=0x7f080023;
         public static final int edit_source_btn=0x7f080016;
         public static final int general_header=0x7f080019;
         public static final int general_header_ref=0x7f080004;
-        public static final int gft_day=0x7f08001f;
-        public static final int gft_description=0x7f08001c;
-        public static final int gft_month=0x7f08001e;
-        public static final int gft_year=0x7f080021;
-        public static final int gift_date_wrapper=0x7f08001d;
-        public static final int imageView1=0x7f08001b;
+        public static final int gft_day=0x7f080020;
+        public static final int gft_description=0x7f08001d;
+        public static final int gft_month=0x7f08001f;
+        public static final int gft_year=0x7f080022;
+        public static final int gift_date_wrapper=0x7f08001e;
+        public static final int imageView1=0x7f08001c;
         public static final int list_gift_btn=0x7f080018;
-        public static final int lobbyist=0x7f080030;
+        public static final int lobbyist=0x7f080031;
         public static final int month_display=0x7f080007;
-        public static final int month_gift_count=0x7f080009;
-        public static final int month_value_sum=0x7f08000b;
-        public static final int new_gift_add_source=0x7f080028;
-        public static final int new_gift_cancel=0x7f080027;
-        public static final int new_gift_save=0x7f080029;
-        public static final int new_source_button_wrap=0x7f080031;
+        public static final int month_gift_count=0x7f08000a;
+        public static final int month_spinner=0x7f080008;
+        public static final int month_value_sum=0x7f08000c;
+        public static final int new_gift_add_source=0x7f080029;
+        public static final int new_gift_cancel=0x7f080028;
+        public static final int new_gift_save=0x7f08002a;
+        public static final int new_source_button_wrap=0x7f080032;
         public static final int s_business=0x7f080001;
         public static final int s_name=0x7f080000;
-        public static final int s_sum=0x7f080035;
-        public static final int search_bar=0x7f080036;
-        public static final int selected_src_list=0x7f080026;
-        public static final int source_address_input=0x7f08002d;
-        public static final int source_business_input=0x7f08002f;
-        public static final int source_business_input_wrapper=0x7f08002a;
-        public static final int source_input_cancel_delete_btn=0x7f080032;
-        public static final int source_input_save_btn=0x7f080033;
-        public static final int source_list_fragment=0x7f080012;
-        public static final int source_name_input=0x7f08002c;
-        public static final int source_select_fragment=0x7f080034;
-        public static final int src_list=0x7f080037;
-        public static final int src_name_label=0x7f08002b;
+        public static final int s_sum=0x7f080036;
+        public static final int search_bar=0x7f080037;
+        public static final int selected_src_list=0x7f080027;
+        public static final int source_address_input=0x7f08002e;
+        public static final int source_business_input=0x7f080030;
+        public static final int source_business_input_wrapper=0x7f08002b;
+        public static final int source_input_cancel_delete_btn=0x7f080033;
+        public static final int source_input_save_btn=0x7f080034;
+        public static final int source_list_fragment=0x7f080013;
+        public static final int source_name_input=0x7f08002d;
+        public static final int source_select_fragment=0x7f080035;
+        public static final int src_list=0x7f080038;
+        public static final int src_name_label=0x7f08002c;
         public static final int tab1=0x7f080005;
         public static final int tableRow1=0x7f080006;
-        public static final int tableRow2=0x7f080008;
-        public static final int tableRow3=0x7f08000c;
-        public static final int tableRow4=0x7f08000e;
-        public static final int textView1=0x7f080015;
-        public static final int textView2=0x7f08002e;
-        public static final int textView3=0x7f08000a;
-        public static final int totalvalue=0x7f080025;
-        public static final int value_display=0x7f080023;
-        public static final int year_display=0x7f08000d;
-        public static final int year_gift_count=0x7f08000f;
-        public static final int year_value_sum=0x7f080011;
+        public static final int tableRow2=0x7f080009;
+        public static final int tableRow3=0x7f08000d;
+        public static final int tableRow4=0x7f08000f;
+        public static final int textView1=0x7f08001a;
+        public static final int textView2=0x7f08002f;
+        public static final int textView3=0x7f08000b;
+        public static final int totalvalue=0x7f080026;
+        public static final int value_display=0x7f080024;
+        public static final int year_display=0x7f08000e;
+        public static final int year_gift_count=0x7f080010;
+        public static final int year_value_sum=0x7f080012;
     }
     public static final class layout {
         public static final int contribution_list=0x7f030000;
@@ -100,6 +101,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int select_source=0x7f030006;
         public static final int source_item_view=0x7f030007;
         public static final int source_search_fragment=0x7f030008;
+        public static final int spinner_item=0x7f030009;
+        public static final int spinner_list=0x7f03000a;
     }
     public static final class string {
         public static final int add=0x7f050006;
@@ -129,18 +132,15 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
-
         
 
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
-
     
  API 11 theme customizations can go here. 
 
@@ -152,14 +152,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
          */
         public static final int AppBaseTheme=0x7f070000;
         /**  Application theme. 
- All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f070001;
-        public static final int FullscreenActionBarStyle=0x7f070005;
-        public static final int FullscreenTheme=0x7f070006;
+        public static final int FullscreenActionBarStyle=0x7f070006;
+        public static final int FullscreenTheme=0x7f070007;
         public static final int header_title=0x7f070002;
         public static final int summary_text=0x7f070003;
-        public static final int summary_text_italic=0x7f070004;
+        public static final int summary_text_editcenter=0x7f070004;
+        public static final int summary_text_italic=0x7f070005;
     }
     public static final class styleable {
         /** 

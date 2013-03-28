@@ -16,8 +16,10 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class Dashboard extends Activity implements SelectOption, ListItemClick {
@@ -30,6 +32,7 @@ public class Dashboard extends Activity implements SelectOption, ListItemClick {
 	private TextView yearCount;
 	private TextView monthSum;
 	private TextView yearSum;
+	private Spinner monthSpinner;
 	private Source src;
 	private int month;
 	private int year;
@@ -68,7 +71,7 @@ public class Dashboard extends Activity implements SelectOption, ListItemClick {
 		yearCount = (TextView)this.findViewById(R.id.year_gift_count);
 		monthSum = (TextView)this.findViewById(R.id.month_value_sum);
 		yearSum = (TextView)this.findViewById(R.id.year_value_sum);
-		
+		monthSpinner = (Spinner)this.findViewById(R.id.month_spinner);
 		/*update the summary display*/
 		updateDashboard();
 
@@ -134,10 +137,16 @@ public class Dashboard extends Activity implements SelectOption, ListItemClick {
 	private void updateDashboard() {
 		double monthValue = sgdao.totalReceived(year, this.month);
 		double yearValue = sgdao.totalReceived(year);
-		String monthDisplayText = "Gifts received in " + MiscUtil.month_name(month)+":";
+		//String monthDisplayText = "Gifts received in " + MiscUtil.month_name(month)+":";
 		String yearDisplayText = "Gift received in "+ year+":";
-		monthDisplay.setText(monthDisplayText);
-		monthDisplay.setText("Current month: ");
+		//monthDisplay.setText(monthDisplayText);
+		//TODO using spinner now
+		monthDisplay.setText("Gift received in:");
+		ArrayAdapter<CharSequence> spinnerAdapter = 
+				ArrayAdapter.createFromResource(this, R.array.months, R.layout.spinner_item);
+		spinnerAdapter.setDropDownViewResource(R.layout.spinner_list);
+		monthSpinner.setAdapter(spinnerAdapter);
+		
 		yearDisplay.setText(yearDisplayText);
 		int mCount = gdao.getGiftCount(month, year);
 		int yCount = gdao.getGiftCount(year);

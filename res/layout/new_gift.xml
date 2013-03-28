@@ -48,7 +48,7 @@
 
             <EditText
                 android:id="@+id/gft_month"
-                style="@style/summary_text"
+                style="@style/summary_text.editcenter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -64,7 +64,7 @@
 
             <EditText
                 android:id="@+id/gft_day"
-                style="@style/summary_text"
+                style="@style/summary_text.editcenter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -80,7 +80,7 @@
 
             <EditText
                 android:id="@+id/gft_year"
-                style="@style/summary_text"
+                style="@style/summary_text.editcenter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

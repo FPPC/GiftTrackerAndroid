@@ -3,7 +3,8 @@
     android:id="@+id/source_business_input_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="5dp" >
 
     <TextView
         android:id="@+id/src_name_label"
@@ -13,6 +14,7 @@
 
     <EditText
         android:id="@+id/source_name_input"
+        style="@style/summary_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -29,6 +31,7 @@
 
     <EditText
         android:id="@+id/source_address_input"
+        style="@style/summary_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -42,6 +45,7 @@
 
     <EditText
         android:id="@+id/source_business_input"
+        style="@style/summary_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
