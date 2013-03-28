@@ -25,7 +25,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/month_display"
                 style="@style/summary_text.italic"
                 android:text="This month:" />
         </TableRow>
@@ -37,7 +37,7 @@
             android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/month_gift_count"
                 style="@style/summary_text"
                 android:layout_weight="7"
                 android:text="10 Gifts" />
@@ -49,7 +49,7 @@
                 android:text="Value:" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/month_value_sum"
                 style="@style/summary_text"
                 android:layout_weight="1"
                 android:text="$1200"
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/TextView01"
+                android:id="@+id/year_display"
                 style="@style/summary_text.italic"
                 android:text="This year:" />
         </TableRow>
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/TextView02"
+                android:id="@+id/year_gift_count"
                 style="@style/summary_text"
                 android:layout_weight="7"
                 android:text="25 Gifts" />
@@ -85,7 +85,7 @@
                 android:text="Value:" />
 
             <TextView
-                android:id="@+id/TextView04"
+                android:id="@+id/year_value_sum"
                 style="@style/summary_text"
                 android:layout_weight="1"
                 android:text="$2300"

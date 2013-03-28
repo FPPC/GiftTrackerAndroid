@@ -1,8 +1,9 @@
 package gov.ca.fppc.fppcgifttracker.model;
 
 import gov.ca.fppc.fppcgifttracker.controller.Constant;
-
 import java.io.Serializable;
+
+import android.util.Log;
 
 public class Source implements Serializable {
 	/**
@@ -66,5 +67,24 @@ public class Source implements Serializable {
 		}
 		
 		return limit-r.totalReceived(this.id, year, month);
+	}
+	
+	@Override
+	public String toString() {
+		String result = ""+getID()+" "+getName()+" "+getAddress()+" "+getActivity()+" "+getLobby();
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		Source obj;
+		try {
+			obj = (Source) o;
+		} catch (ClassCastException e) {
+			Log.wtf("Compare", "exception catched");			
+			return false;
+		}
+		boolean result = toString().equals(obj.toString());
+		return result;
 	}
 }

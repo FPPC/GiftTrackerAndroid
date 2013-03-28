@@ -3,6 +3,7 @@ package gov.ca.fppc.fppcgifttracker.controller;
 import java.util.List;
 import gov.ca.fppc.fppcgifttracker.R;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,12 @@ public class SourceAdapter extends ArrayAdapter<Source>{
 		this.year = year;
 		this.month = month;
 	}
+	
+	public void updateYearMonth(int year, int month) {
+		this.year = year;
+		this.month = month;
+		this.notifyDataSetChanged();
+	}
 		
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -47,7 +54,6 @@ public class SourceAdapter extends ArrayAdapter<Source>{
 		}
 		Source sc = source.get(position);
 		vholder.s_name.setText(sc.getName());
-		//android.util.Log.wtf("work here",sc.getName());
 		String job;
 		double limit_left = sc.getLimit();
 		if (sc.getLobby() != 0) {
@@ -59,8 +65,13 @@ public class SourceAdapter extends ArrayAdapter<Source>{
 		}
 			
 		vholder.s_business.setText(job);
-		//TODO: color according to %
-		vholder.s_sum.setText(String.format("$%.2f",limit_left));
+		if (limit_left < 0.0){
+			vholder.s_sum.setText(String.format("-$%.2f",-limit_left));			
+			vholder.s_sum.setTextColor(context.getResources().getColor(R.color.error_red));
+		} else {
+			vholder.s_sum.setText(String.format("$%.2f",limit_left));			
+			vholder.s_sum.setTextColor(context.getResources().getColor(R.color.dollar_green));
+		}
 		return rowView;
 	}
 	

@@ -35,7 +35,6 @@ public class SourceListFragment extends DialogFragment{
 	private EditText searchtext;
 	private ListView sourceList;
 	private Activity parent;
-
 	private ListItemClick callback;
 
 	public interface ListItemClick {
@@ -48,6 +47,13 @@ public class SourceListFragment extends DialogFragment{
 		gdao.close();
 		sgdao.close();
 		super.onDestroy();
+	}
+	
+	public void updateMonthYear(int month, int year) {
+		this.month = month;
+		this.year = year;
+		SourceAdapter adapt = (SourceAdapter)this.sourceList.getAdapter();
+		adapt.updateYearMonth(year, month);
 	}
 
 	@Override
@@ -80,17 +86,15 @@ public class SourceListFragment extends DialogFragment{
 		gdao.open();
 		sgdao = new GiftSourceRelationDAO(parent);
 		sgdao.open();
-
+		
+		/*month and year, default to current*/
+		this.month = Calendar.getInstance().get(Calendar.MONTH);
+		this.year = Calendar.getInstance().get(Calendar.YEAR);
 		View view = inflater.inflate(R.layout.source_search_fragment, 
 				container, false);
 		/* view handle should be done here */
 		this.sourceList = (ListView) view.findViewById(R.id.src_list);
 		this.searchtext = (EditText) view.findViewById(R.id.search_bar);
-		/*
-		 * Current month and year:
-		 */
-		this.year = Calendar.getInstance().get(Calendar.YEAR);
-		this.month = Calendar.getInstance().get(Calendar.MONTH);
 
 		/* populate the list*/
 		setup();
@@ -114,18 +118,14 @@ public class SourceListFragment extends DialogFragment{
 		return view;
 	}
 	public void filtering(Editable s) {
-		List<Source> temp;
-		ArrayAdapter<Source> a;
 		if (s.toString().length() > 0) {
-			temp = sdao.filterSource(s.toString());
-			/* DEBUG android.util.Log.wtf("Yolo","oloy");*/
+			source = sdao.filterSource(s.toString());
 		} else {
-			temp = sdao.getAllSource();;
-			Collections.sort(source, new SourceComparator(sgdao));
-			/* DEBUG android.util.Log.wtf("Happens","hahaha");*/
+			source = sdao.getAllSource();;
+			Collections.sort(source, new SourceComparator(sgdao,year,month));
 		}
-		a = new SourceAdapter(parent, temp,sgdao, year, month);
-		sourceList.setAdapter(a);
+		SourceAdapter adapt = (SourceAdapter)sourceList.getAdapter();
+		adapt.notifyDataSetChanged();
 	}
 	public void setup() {
 		/*
@@ -133,7 +133,7 @@ public class SourceListFragment extends DialogFragment{
 		 */
 		source = this.sdao.getAllSource();
 		/* sort it first */
-		Collections.sort(source, new SourceComparator(sgdao));
+		Collections.sort(source, new SourceComparator(sgdao,year,month));
 		ArrayAdapter<Source> adapter = new SourceAdapter(parent,source,sgdao, 
 				this.year, this.month);		
 		sourceList.setAdapter(adapter);

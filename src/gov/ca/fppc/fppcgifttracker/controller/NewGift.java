@@ -10,12 +10,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import gov.ca.fppc.fppcgifttracker.R;
+import gov.ca.fppc.fppcgifttracker.model.Gift;
 import gov.ca.fppc.fppcgifttracker.model.GiftDAO;
 import gov.ca.fppc.fppcgifttracker.model.GiftSourceRelationDAO;
 import gov.ca.fppc.fppcgifttracker.model.Source;
@@ -28,6 +30,7 @@ public class NewGift extends Activity {
 	private EditText editMonth;
 	private EditText editDay;
 	private EditText description;
+	private TextView sumDisplay;
 	private TextView dateError;
 	private Button cancel;
 	private Button save;
@@ -43,6 +46,9 @@ public class NewGift extends Activity {
 	private SourceDAO sdao;
 	private int mode;
 	private long gid;
+	private View.OnFocusChangeListener valueUpdater;
+	private boolean hasItem;
+	private boolean correctDate;
 
 	/*save and load*/
 	@Override
@@ -57,7 +63,7 @@ public class NewGift extends Activity {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.new_gift);
 
-		/*init the source list */
+		/* init the source list */
 		if (savedInstanceState ==null) {
 			selected = new ArrayList<Source>();
 		} else {
@@ -74,7 +80,7 @@ public class NewGift extends Activity {
 		save = (Button)this.findViewById(R.id.new_gift_save);
 		add = (Button)this.findViewById(R.id.new_gift_add_source);
 		selectedList = (ListView)this.findViewById(R.id.selected_src_list);
-
+		sumDisplay = (TextView)this.findViewById(R.id.totalvalue);
 		/* get today date*/
 		today = Calendar.getInstance();
 
@@ -83,7 +89,7 @@ public class NewGift extends Activity {
 		editYear.setText(String.format("%d",today.get(Calendar.YEAR)));
 		editMonth.setText(String.format("%d",1+today.get(Calendar.MONTH)));
 		editDay.setText(String.format("%d",today.get(Calendar.DAY_OF_MONTH)));
-
+		correctDate = true;
 		/* make the text watcher for verifying date*/
 		tw = new TextWatcher() {
 			public void afterTextChanged(Editable s) {
@@ -111,18 +117,59 @@ public class NewGift extends Activity {
 		mode = i.getIntExtra(Constant.MODE,Constant.NEW);
 		processMode(mode);
 
-		/*set the selected list adapter */
-		ContributionAdapter srcAdapt = new ContributionAdapter(this, selected, sgdao, gid);
-		selectedList.setAdapter(srcAdapt);
+		/* set the display of total sum */
+		valueUpdater = new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (!hasFocus) {
+					double sum = 0.0;
+					for(int i = 0; i < selectedList.getCount();i++) {
+						try {
+							EditText contribution = (EditText) selectedList.getChildAt(i).findViewById(R.id.contribution);
+							double value = Double.parseDouble(contribution.getText().toString());
+							sum+= value;
+						} catch (NullPointerException E) {
+							sum+=0.0;
+						} catch (NumberFormatException n) {
+							sum+=0.0;
+						}
+					}
+					sumDisplay.setText(String.format("  $%.2f", sum));
+				}
+			}
+		};
+
+		/* setup the selected list */
+		setupAdapter();
 
 		/* set the add source button */
 		add.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				//showAddSourceDialog();
 				startSelectingActivity();
-			};
+			}
+		});
+		/*set the save gift button */
+		save.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				saveGift();
+				finish();
+			}
+		});
+		cancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
 		});
 	}
+
+	private void setupAdapter() {
+		ContributionAdapter srcAdapt = new ContributionAdapter(this, selected, sgdao, gid,valueUpdater);
+		selectedList.setAdapter(srcAdapt);
+		hasItem = !(selectedList.getCount()==0);
+	}
+
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -132,8 +179,9 @@ public class NewGift extends Activity {
 				if (!selected.contains(getback)) {
 					selected.add(getback);
 				}
-				ContributionAdapter srcAdapt = new ContributionAdapter(this, selected, sgdao, gid);
-				selectedList.setAdapter(srcAdapt);
+				ContributionAdapter adapt = (ContributionAdapter) selectedList.getAdapter();
+				adapt.notifyDataSetChanged();
+				hasItem = !(selectedList.getCount()==0);
 			}
 		}
 	}
@@ -141,6 +189,9 @@ public class NewGift extends Activity {
 	/*New Activity Style */
 	private void startSelectingActivity() {
 		Intent i = new Intent(this, SelectSource.class);
+		if (correctDate) {
+			i.putExtra("month",Integer.parseInt(editMonth.getText().toString()));
+		}
 		startActivityForResult(i,Constant.APPEND_SOURCE);
 	}
 
@@ -183,14 +234,34 @@ public class NewGift extends Activity {
 	}
 
 	private void fixDate() {
-		if (checkDate()) {
-			save.setEnabled(true);
+		correctDate = checkDate();
+		if (correctDate) {
+			save.setEnabled(correctDate&&hasItem);
 			dateError.setText("");
 			return;
 		} else {
-			save.setEnabled(false);
+			save.setEnabled(correctDate&&hasItem);
 			dateError.setText(R.string.please_enter_a_valid_date);
 			return;
+		}
+	}
+
+	private void saveGift() {
+		/*save to table gift*/
+		Log.wtf((correctDate)?"ok":"date", (hasItem)?"okay":"item");
+		if (correctDate && hasItem) {
+			int year = Integer.parseInt(editYear.getText().toString());
+			int month = Integer.parseInt(editMonth.getText().toString());
+			int day = Integer.parseInt(editDay.getText().toString());
+			String des = description.getText().toString();
+			Gift g = gdao.createGift(year, month, day, des);
+			/*now the value*/
+			for(int i = 0; i < selectedList.getCount();i++) {
+				EditText contribution = (EditText) selectedList.getChildAt(i).findViewById(R.id.contribution);
+				double value = Double.parseDouble(contribution.getText().toString());
+				long sid = selected.get(i).getID();
+				sgdao.createRelation(sid, g.getID(), value);
+			}
 		}
 	}
 

@@ -16,17 +16,20 @@ public class ContributionAdapter extends ArrayAdapter<Source>{
 	private List<Source> source;
 	private GiftSourceRelationDAO lookup;
 	private Long gid;
+	private View.OnFocusChangeListener valueUpdater;
 	/*
 	 * Make comparator for sort
 	 * Sort by allowance left
 	 */
 	
-	public ContributionAdapter(Context context, List<Source> source, GiftSourceRelationDAO lookup, long gid) {
+	public ContributionAdapter(Context context, List<Source> source, 
+			GiftSourceRelationDAO lookup, long gid, View.OnFocusChangeListener valueUpdater) {
 		super(context, R.layout.contribution_list,source);
 		this.context = context;
 		this.source = source;
 		this.lookup = lookup;
 		this.gid=gid;
+		this.valueUpdater = valueUpdater;
 	}
 		
 	@Override
@@ -56,11 +59,14 @@ public class ContributionAdapter extends ArrayAdapter<Source>{
 		}
 			
 		vholder.s_business.setText(job);
-		if (gid == -1) {
+		
+		if (gid != -1) {
 			vholder.s_contribution.setText(String.format("%.2f",lookup.getValue(gid, sc.getID())));
-		} else {
-			vholder.s_contribution.setText("");
 		}
+		/*else {
+			vholder.s_contribution.setText("");
+		}*/
+		vholder.s_contribution.setOnFocusChangeListener(valueUpdater);
 		return rowView;
 	}
 	

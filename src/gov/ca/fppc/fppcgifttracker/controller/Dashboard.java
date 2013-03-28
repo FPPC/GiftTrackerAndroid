@@ -1,11 +1,14 @@
 package gov.ca.fppc.fppcgifttracker.controller;
 
+import java.util.Calendar;
+
 import gov.ca.fppc.fppcgifttracker.controller.DashboardOption.SelectOption;
 import gov.ca.fppc.fppcgifttracker.controller.SourceListFragment.ListItemClick;
 import gov.ca.fppc.fppcgifttracker.model.GiftDAO;
 import gov.ca.fppc.fppcgifttracker.model.GiftSourceRelationDAO;
 import gov.ca.fppc.fppcgifttracker.model.Source;
 import gov.ca.fppc.fppcgifttracker.model.SourceDAO;
+import gov.ca.fppc.fppcgifttracker.util.MiscUtil;
 import gov.ca.fppc.fppcgifttracker.R;
 //import java.util.Calendar;
 import android.app.Activity;
@@ -15,20 +18,28 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class Dashboard extends Activity implements SelectOption, ListItemClick {
 	private SourceDAO sdao;
 	private GiftDAO gdao;
 	private GiftSourceRelationDAO sgdao;
+	private TextView monthDisplay;
+	private TextView yearDisplay;
+	private TextView monthCount;
+	private TextView yearCount;
+	private TextView monthSum;
+	private TextView yearSum;
 	private Source src;
-
-	//private int month;
-	//private int year;
+	private int month;
+	private int year;
+	
 	@Override
 	protected void onSaveInstanceState(Bundle saved) {
 		super.onSaveInstanceState(saved);
 		EditText search = (EditText)findViewById(R.id.search_bar);
 		saved.putString("search", search.getText().toString());
+		saved.putInt("month", month);
 	}
 
 	@Override
@@ -41,6 +52,25 @@ public class Dashboard extends Activity implements SelectOption, ListItemClick {
 		gdao.open();
 		sgdao = new GiftSourceRelationDAO(this);
 		sgdao.open();
+		
+		/*get current month/year */
+		year = Calendar.getInstance().get(Calendar.YEAR);
+		if (savedInstanceState == null) {
+			month = Calendar.getInstance().get(Calendar.MONTH)+1;
+		} else {
+			month = savedInstanceState.getInt("month");
+		}
+		
+		/* get view handles */
+		monthDisplay = (TextView)this.findViewById(R.id.month_display);
+		yearDisplay = (TextView)this.findViewById(R.id.year_display);
+		monthCount = (TextView)this.findViewById(R.id.month_gift_count);
+		yearCount = (TextView)this.findViewById(R.id.year_gift_count);
+		monthSum = (TextView)this.findViewById(R.id.month_value_sum);
+		yearSum = (TextView)this.findViewById(R.id.year_value_sum);
+		
+		/*update the summary display*/
+		updateDashboard();
 
 		/*
 		 * Set on click for add source button
@@ -51,13 +81,11 @@ public class Dashboard extends Activity implements SelectOption, ListItemClick {
 				addButton(v);
 			}
 		});
-		if (savedInstanceState == null) {
-			/*setup fragment*/
+		
+		/*setup fragment*/
 			SourceListFragment sourceListFrag = (SourceListFragment) getFragmentManager()
 					.findFragmentById(R.id.source_list_fragment);
-		} else {
-			((EditText)findViewById(R.id.search_bar)).setText(savedInstanceState.getString("search"));
-		}
+			sourceListFrag.updateMonthYear(month, year);
 	}
 
 	private void addButton (View button) {
@@ -78,7 +106,7 @@ public class Dashboard extends Activity implements SelectOption, ListItemClick {
 	@Override
 	public void onResume() {
 		super.onResume();
-		//TODO
+		updateDashboard();
 	}
 
 	/*Interface ListItemClick */
@@ -103,6 +131,22 @@ public class Dashboard extends Activity implements SelectOption, ListItemClick {
 		}
 	}
 
+	private void updateDashboard() {
+		double monthValue = sgdao.totalReceived(year, this.month);
+		double yearValue = sgdao.totalReceived(year);
+		String monthDisplayText = "Gifts received in " + MiscUtil.month_name(month)+":";
+		String yearDisplayText = "Gift received in "+ year+":";
+		monthDisplay.setText(monthDisplayText);
+		monthDisplay.setText("Current month: ");
+		yearDisplay.setText(yearDisplayText);
+		int mCount = gdao.getGiftCount(month, year);
+		int yCount = gdao.getGiftCount(year);
+		monthSum.setText(String.format("$%.2f", monthValue));
+		yearSum.setText(String.format("$%.2f", yearValue));
+		monthCount.setText(String.format("%d gift(s)",mCount));
+		yearCount.setText(String.format("%d gift(s)",yCount));
+	}
+	
 	private void editSource() {
 		Intent intent = new Intent(this, NewSource.class);
 		intent.putExtra(Constant.SRC, this.src);

@@ -14,13 +14,13 @@ public class GiftDAO {
 	/**
 	 * 
 	 */
-	
-	
+
+
 	private SQLiteDatabase db;
 	private SQLiteHelper dbhelper;
 	private String[] allColumns = { SQLiteHelper.GIFT_ID, SQLiteHelper.GIFT_YEAR, SQLiteHelper.GIFT_MONTH, 
 			SQLiteHelper.GIFT_DAY, SQLiteHelper.GIFT_DESCRIPTION };
-	
+
 	public GiftDAO(Context context) {
 		dbhelper = new SQLiteHelper(context);
 	}
@@ -33,9 +33,8 @@ public class GiftDAO {
 		dbhelper.close();
 	}
 
-	public Gift createGift(long sourceID, int year, int month, int day, String description) {
+	public Gift createGift(int year, int month, int day, String description) {
 		ContentValues values = new ContentValues();
-		values.put(SQLiteHelper.SOURCE_ID, sourceID);
 		values.put(SQLiteHelper.GIFT_YEAR, year);
 		values.put(SQLiteHelper.GIFT_MONTH, month);
 		values.put(SQLiteHelper.GIFT_DAY, day);
@@ -137,5 +136,20 @@ public class GiftDAO {
 		} 
 		cursor.close();
 		return gfts;
+	}
+
+	public int getGiftCount(int month, int year) {
+		/* build query*/
+		String where = SQLiteHelper.GIFT_MONTH+ " = ? AND "+SQLiteHelper.GIFT_YEAR+ " = ?";
+		String [] value = {Integer.toString(month),Integer.toString(year)};
+		Cursor c = db.query(SQLiteHelper.TABLE_GIFT, null, where, value, null, null, null);
+		return c.getCount();
+	}
+	public int getGiftCount(int year) {
+		/* build query*/
+		String where = SQLiteHelper.GIFT_YEAR+ " = ?";
+		String [] value = {Integer.toString(year)};
+		Cursor c = db.query(SQLiteHelper.TABLE_GIFT, null, where, value, null, null, null);
+		return c.getCount();
 	}
 }

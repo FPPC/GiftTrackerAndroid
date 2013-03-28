@@ -57,18 +57,18 @@ public class GiftSourceRelationDAO {
 		return result;
 	}
 	
-	public double totalReceived(long sid, int year, int month) {
+	public double totalReceived(long sid, int year, int m) {
 		/*
 		 * Build raw query
 		 * SELECT R.VALUE FROM 
 		 * 		TABLE_GIVING R JOIN TABLE_GIFT G ON R.GIFT_ID = G.GIFT_ID 
 		 * 		WHERE G.YEAR = YEAR AND G.MONTH = MONTH AND R.SOURCE_ID = SID;
 		 */
-		
 		String query = "SELECT R."+SQLiteHelper.VALUE+" FROM "
 				+SQLiteHelper.TABLE_GIVING+" R JOIN "+SQLiteHelper.TABLE_GIFT+" G ON R."+SQLiteHelper.GIFT_ID+" = G."+SQLiteHelper.GIFT_ID
 				+" WHERE G."+SQLiteHelper.GIFT_YEAR+" = ? AND G."+SQLiteHelper.GIFT_MONTH+" = ? AND R."+SQLiteHelper.SOURCE_ID+" = ?;";
-		String [] args = {""+year,""+month,""+sid};
+		String [] args = {""+year,""+m,""+sid};
+		
 		Cursor cursor = db.rawQuery(query,args);
 		double sum = 0.0;
 		if (cursor.moveToFirst()) {
@@ -157,7 +157,7 @@ public class GiftSourceRelationDAO {
 		values.put(SQLiteHelper.GIFT_ID, giftID);
 		values.put(SQLiteHelper.VALUE, value);
 
-		return db.insert(SQLiteHelper.TABLE_GIFT, null, values);
+		return db.insert(SQLiteHelper.TABLE_GIVING, null, values);
 	}
 
 	public void deleteRelation(long sourceID, long giftID) {

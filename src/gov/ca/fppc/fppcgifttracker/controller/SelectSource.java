@@ -1,5 +1,7 @@
 package gov.ca.fppc.fppcgifttracker.controller;
 
+import java.util.Calendar;
+
 import gov.ca.fppc.fppcgifttracker.R;
 import gov.ca.fppc.fppcgifttracker.controller.SourceListFragment.ListItemClick;
 import gov.ca.fppc.fppcgifttracker.model.Source;
@@ -13,7 +15,11 @@ public class SelectSource extends Activity implements ListItemClick{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.select_source);
-		getFragmentManager().findFragmentById(R.id.source_select_fragment);
+		SourceListFragment frag = (SourceListFragment) getFragmentManager().findFragmentById(R.id.source_select_fragment);
+		Intent i = getIntent();
+		if (i.hasExtra("month")) {
+			frag.updateMonthYear(i.getIntExtra("month",Calendar.getInstance().get(Calendar.MONTH)), Calendar.getInstance().get(Calendar.YEAR));
+		}
 	}
 	
 	@Override
