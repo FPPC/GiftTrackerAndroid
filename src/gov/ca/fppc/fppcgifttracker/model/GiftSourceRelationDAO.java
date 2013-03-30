@@ -50,7 +50,7 @@ public class GiftSourceRelationDAO {
 		}
 		return result;
 	}
-	
+
 	public void close() {
 		dbhelper.close();
 	}
@@ -65,7 +65,7 @@ public class GiftSourceRelationDAO {
 		}
 		return 0.0;
 	}
-	
+
 	public double giftValue(long gift_id) {
 		/* build the query*/ 
 		String[] column = new String[] { SQLiteHelper.VALUE };
@@ -83,7 +83,7 @@ public class GiftSourceRelationDAO {
 		}
 		return result;
 	}
-	
+
 	public double totalReceived(long sid, int year, int m) {
 		/*
 		 * Build raw query
@@ -95,7 +95,7 @@ public class GiftSourceRelationDAO {
 				+SQLiteHelper.TABLE_GIVING+" R JOIN "+SQLiteHelper.TABLE_GIFT+" G ON R."+SQLiteHelper.GIFT_ID+" = G."+SQLiteHelper.GIFT_ID
 				+" WHERE G."+SQLiteHelper.GIFT_YEAR+" = ? AND G."+SQLiteHelper.GIFT_MONTH+" = ? AND R."+SQLiteHelper.SOURCE_ID+" = ?;";
 		String [] args = {""+year,""+m,""+sid};
-		
+
 		Cursor cursor = db.rawQuery(query,args);
 		double sum = 0.0;
 		if (cursor.moveToFirst()) {
@@ -107,7 +107,7 @@ public class GiftSourceRelationDAO {
 		cursor.close();
 		return sum;
 	}
-	
+
 	public double totalReceived(long sid, int year) {
 		/*
 		 * Build raw query
@@ -115,7 +115,7 @@ public class GiftSourceRelationDAO {
 		 * 		TABLE_GIVING R JOIN TABLE_GIFT G ON R.GIFT_ID = G.GIFT_ID 
 		 * 		WHERE G.YEAR = YEAR;
 		 */
-		
+
 		String query = "SELECT R."+SQLiteHelper.VALUE+" FROM "
 				+SQLiteHelper.TABLE_GIVING+" R JOIN "+SQLiteHelper.TABLE_GIFT+" G ON R."+SQLiteHelper.GIFT_ID+" = G."+SQLiteHelper.GIFT_ID
 				+" WHERE G."+SQLiteHelper.GIFT_YEAR+" = ? AND R."+SQLiteHelper.SOURCE_ID+" =?;";
@@ -139,7 +139,7 @@ public class GiftSourceRelationDAO {
 		 * 		TABLE_GIVING R JOIN TABLE_GIFT G ON R.GIFT_ID = G.GIFT_ID 
 		 * 		WHERE G.YEAR = YEAR AND G.MONTH = MONTH;
 		 */
-		
+
 		String query = "SELECT R."+SQLiteHelper.VALUE+" FROM "
 				+SQLiteHelper.TABLE_GIVING+" R JOIN "+SQLiteHelper.TABLE_GIFT+" G ON R."+SQLiteHelper.GIFT_ID+" = G."+SQLiteHelper.GIFT_ID
 				+" WHERE G."+SQLiteHelper.GIFT_YEAR+" = ? AND G."+SQLiteHelper.GIFT_MONTH+" = ?;";
@@ -155,7 +155,7 @@ public class GiftSourceRelationDAO {
 		cursor.close();
 		return sum;
 	}	
-	
+
 	public double totalReceived(int year) {
 		/*
 		 * Build raw query
@@ -163,7 +163,7 @@ public class GiftSourceRelationDAO {
 		 * 		TABLE_GIVING R JOIN TABLE_GIFT G ON R.GIFT_ID = G.GIFT_ID 
 		 * 		WHERE G.YEAR = YEAR;
 		 */
-		
+
 		String query = "SELECT R."+SQLiteHelper.VALUE+" FROM "
 				+SQLiteHelper.TABLE_GIVING+" R JOIN "+SQLiteHelper.TABLE_GIFT+" G ON R."+SQLiteHelper.GIFT_ID+" = G."+SQLiteHelper.GIFT_ID
 				+" WHERE G."+SQLiteHelper.GIFT_YEAR+" = ?;";
@@ -208,4 +208,56 @@ public class GiftSourceRelationDAO {
 
 	}
 
-}
+	public List<Gift> allGiftFrom(long sid, int year) {
+		ArrayList<Gift> result = new ArrayList<Gift>();
+		/* raw query
+		 * SELECT G.* FROM TABLE_GIVING V 
+		 * JOIN TABLE_GIFT G ON G.GIFT_ID = V.GIFT_ID
+		 * JOIN TABLE_SOURCE S ON S.SOURCE_ID = V.SOURCE_ID
+		 * WHERE S.SOURCE_ID = ? AND G.GIFT_YEAR = ?;
+		 */
+		String query = "SELECT G.* FROM " + SQLiteHelper.TABLE_GIVING +" V "
+				+"JOIN "+SQLiteHelper.TABLE_GIFT+" G ON G."+SQLiteHelper.GIFT_ID+" = V."+SQLiteHelper.GIFT_ID+" "
+				+"JOIN "+SQLiteHelper.TABLE_SOURCE+" S ON S."+SQLiteHelper.SOURCE_ID+" = V."+SQLiteHelper.SOURCE_ID+" "
+				+"WHERE S."+SQLiteHelper.SOURCE_ID+" = ? AND G."+SQLiteHelper.GIFT_YEAR+" = ?";
+		String [] args = {""+sid,""+year};
+		Cursor cursor = db.rawQuery(query, args);
+		if (cursor.moveToFirst()) {
+			while (!cursor.isAfterLast()) {
+				Gift gift = GiftDAO.cursorToGift(cursor);
+				result.add(gift);
+				cursor.moveToNext();
+			}
+		}
+		cursor.close();
+		return result;
+	}
+
+	public List<Gift> filterGiftFrom(long sid, int year, String s) {
+		ArrayList<Gift> result = new ArrayList<Gift>();
+		/*raw query
+		 * SELECT G.* FROM TABLE_GIVING V
+		 * JOIN TABLE_GIFT G ON G.GIFT_ID = V.GIFT_ID
+		 * JOIN TABLE_SOURCE S ON S.SOURCE_ID = V.SOURCE_ID
+		 * JOIN INDEXED_GIFT I ON V.GIFT_ID = I.DOC_ID
+		 * WHERE S.SOURCE_ID = ? AND I.CONTENT MATCH ? AND G.GIFT_YEAR = ?"
+		 */
+		String query = "SELECT G.* FROM " + SQLiteHelper.TABLE_GIVING +" V "
+				+"JOIN "+SQLiteHelper.TABLE_GIFT+" G ON G."+SQLiteHelper.GIFT_ID+" = V."+SQLiteHelper.GIFT_ID+" "
+				+"JOIN "+SQLiteHelper.TABLE_SOURCE+" S ON S."+SQLiteHelper.SOURCE_ID+" = V."+SQLiteHelper.SOURCE_ID+" "
+				+"JOIN "+SQLiteHelper.GIFT_TABLE_FTS+" I ON V."+SQLiteHelper.GIFT_ID+" = I."+SQLiteHelper.DOC_ID+" "
+				+"WHERE S."+SQLiteHelper.SOURCE_ID+" = ? AND I."+SQLiteHelper.CONTENT+" MATCH ? AND G."+SQLiteHelper.GIFT_YEAR+" = ?";
+		String [] args = {""+sid,s,""+year};
+		Cursor cursor = db.rawQuery(query, args);
+		if (cursor.moveToFirst()) {
+			while (!cursor.isAfterLast()) {
+				Gift gift = GiftDAO.cursorToGift(cursor);
+				result.add(gift);
+				cursor.moveToNext();
+			}
+		}
+		cursor.close();
+		return result;
+		}
+
+	}

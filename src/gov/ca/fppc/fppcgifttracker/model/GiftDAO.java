@@ -102,7 +102,7 @@ public class GiftDAO {
 		return updateID;
 	}
 
-	private Gift cursorToGift(Cursor cursor) {
+	public static Gift cursorToGift(Cursor cursor) {
 		Gift gft = new Gift();
 		gft.setID(cursor.getLong(0));
 		gft.setYear(cursor.getInt(1));
@@ -151,5 +151,30 @@ public class GiftDAO {
 		String [] value = {Integer.toString(year)};
 		Cursor c = db.query(SQLiteHelper.TABLE_GIFT, null, where, value, null, null, null);
 		return c.getCount();
+	}
+	
+	public List<Gift> filterGift(String s) {
+		List<Gift> result = new ArrayList<Gift>();
+		/* FTS query:
+		 * SELECT G.* FROM GIFTS G JOIN INDEXED_GIFT I ON G.GIFT_ID = I.DOCID WHERE I.CONTENT MATCH <SEARCH_STRING>;
+		 */
+		String query = "SELECT G.* FROM "
+				+ SQLiteHelper.TABLE_GIFT + " G JOIN "
+				+ SQLiteHelper.GIFT_TABLE_FTS + " I ON I."
+				+ SQLiteHelper.DOC_ID + " = G."
+				+ SQLiteHelper.GIFT_ID + " WHERE I."
+				+ SQLiteHelper.CONTENT + " MATCH ?;";
+		String [] args = {s+"*"};
+		Cursor cursor = db.rawQuery(query, args);
+		
+		if (cursor.moveToFirst()) {
+			while (!cursor.isAfterLast()) {
+				Gift gift = cursorToGift(cursor);
+				result.add(gift);
+				cursor.moveToNext();
+			}
+		}
+		cursor.close();
+		return result;
 	}
 }

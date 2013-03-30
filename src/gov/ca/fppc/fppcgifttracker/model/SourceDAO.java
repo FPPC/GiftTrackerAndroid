@@ -71,7 +71,7 @@ public class SourceDAO {
 		return newSource;
 	}
 
-	private Source cursorToSource(Cursor cursor) {
+	public static Source cursorToSource(Cursor cursor) {
 		Source src = new Source();
 		src.setID(cursor.getLong(0));
 		src.setName(cursor.getString(1));
@@ -129,7 +129,7 @@ public class SourceDAO {
 		srcs.clear();
 		/*
 		 * quick search for the ID
-		 * SELECT I.* FROM indexed_sources i JOIN sources d ON i.docid = d.src_id WHERE i.content MATCH <search string>;
+		 * SELECT D.* FROM indexed_sources i JOIN sources d ON i.docid = d.src_id WHERE i.content MATCH <search string>;
 		 */
 		String queryline = "SELECT d.* FROM " 
 				+ SQLiteHelper.SOURCE_TABLE_FTS + " i JOIN " 

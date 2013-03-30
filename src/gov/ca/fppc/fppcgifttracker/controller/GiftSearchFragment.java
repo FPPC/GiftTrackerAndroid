@@ -1,22 +1,28 @@
 package gov.ca.fppc.fppcgifttracker.controller;
 
 import gov.ca.fppc.fppcgifttracker.R;
-import gov.ca.fppc.fppcgifttracker.controller.SourceListFragment.ListItemClick;
 import gov.ca.fppc.fppcgifttracker.model.Gift;
 import gov.ca.fppc.fppcgifttracker.model.GiftDAO;
 import gov.ca.fppc.fppcgifttracker.model.GiftSourceRelationDAO;
 import gov.ca.fppc.fppcgifttracker.model.Source;
 import gov.ca.fppc.fppcgifttracker.model.SourceDAO;
+import gov.ca.fppc.fppcgifttracker.util.GiftComparator;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -24,16 +30,16 @@ public class GiftSearchFragment extends Fragment {
 	private SourceDAO sdao;
 	private GiftDAO gdao;
 	private GiftSourceRelationDAO sgdao;
-	private int month;
+	private Source source;
 	private int year;
 	private List<Gift> gift;
 	private EditText searchtext;
 	private ListView giftList;
 	private Activity parent;
-	private ListItemClick callback;
+	private GiftItemClick callback;
 
-	public interface ListItemClick {
-		public void processChosenSource(Source src);
+	public interface GiftItemClick {
+		public void processChosen(Gift gft);
 	}
 
 	@Override
@@ -44,9 +50,8 @@ public class GiftSearchFragment extends Fragment {
 		super.onDestroy();
 	}
 	
-	public void updateMonthYear(int month, int year) {
-		this.month = month;
-		this.year = year;
+	public void updateSource(Source source) {
+		this.source = source;
 		//TODO
 	}
 	
@@ -54,9 +59,9 @@ public class GiftSearchFragment extends Fragment {
 	public void onAttach(Activity a) {
 		super.onAttach(a);
 		try {
-			callback = (ListItemClick)a;
+			callback = (GiftItemClick)a;
 		} catch (ClassCastException e) {
-			throw new ClassCastException(a.toString()+" must implement ListItemClick interface");
+			throw new ClassCastException(a.toString()+" must implement GiftItemList interface");
 		}
 	}
 	
@@ -66,7 +71,7 @@ public class GiftSearchFragment extends Fragment {
 	}
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, Viewgroup container,
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		this.parent = getActivity();
@@ -77,8 +82,8 @@ public class GiftSearchFragment extends Fragment {
 		sgdao = new GiftSourceRelationDAO(parent);
 		sgdao.open();
 		
-		this.month = Calendar.getInstance().get(Calendar.MONTH);
 		this.year = Calendar.getInstance().get(Calendar.YEAR);
+		
 		View view = inflater.inflate(R.layout.source_search_fragment, container, false);
 		this.giftList = (ListView) view.findViewById(R.id.gift_list_in_fragment);
 		this.searchtext = (EditText) view.findViewById(R.id.gift_search_bar);
@@ -97,8 +102,28 @@ public class GiftSearchFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				GiftListAdapter a = (GiftListAdapter) giftList.getAdapter();
-				callback.processChosenGift
+				callback.processChosen(a.getItem(position));
 			}
-		}
+		});
+		return view;
 	}
+	
+	public void filtering(Editable s) {
+		if ((s.toString()).length() > 0) {
+			gift = gdao.filterGift(s.toString());
+		} else {
+			gift = gdao.getAllGift(year);
+			Collections.sort(gift, new GiftComparator());
+		}
+		GiftListAdapter adapt = (GiftListAdapter) giftList.getAdapter();
+		adapt.notifyDataSetChanged();
+	}
+	
+	public void setup() {
+		gift = this.gdao.getAllGift(year);
+		Collections.sort(gift, new GiftComparator());
+		ArrayAdapter<Gift> adapter = new GiftListAdapter(parent, gift, sgdao);
+		giftList.setAdapter(adapter);
+	}
+	
 }
