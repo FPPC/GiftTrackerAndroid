@@ -51,13 +51,17 @@ public class SourceAdapter extends ArrayAdapter<Source>{
 		Source sc = source.get(position);
 		vholder.s_name.setText(sc.getName());
 		String job;
-		double limit_left = sc.getLimit();
+		double monthly = 0.0;
+		double yearly = 0.0;
+		monthly = Constant.LOBBY_LIMIT-lookup.totalReceived(sc.getID(), this.year, this.month);
+		yearly = Constant.GIFT_LIMIT-lookup.totalReceived(sc.getID(),this.year);
+		double limit_left = Constant.GIFT_LIMIT;
 		if (sc.getLobby() != 0) {
 			job = sc.getActivity()+ " - Lobbyist";
-			limit_left -= lookup.totalReceived(sc.getID(), this.year, this.month);
+			limit_left = (monthly<yearly)?monthly:yearly;
 		} else {
 			job = sc.getActivity();
-			limit_left -= lookup.totalReceived(sc.getID(),this.year);
+			limit_left = yearly;
 		}
 			
 		vholder.s_business.setText(job);

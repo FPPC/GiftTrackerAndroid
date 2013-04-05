@@ -17,15 +17,14 @@ public class GiftListAdapter extends ArrayAdapter<Gift> {
 	private List<Gift> gift;
 	private GiftSourceRelationDAO lookup;
 
-	
+
 	public GiftListAdapter(Context context, List<Gift> gift, GiftSourceRelationDAO lookup) {
 		super(context, R.layout.gift_fragment_item, gift);
 		this.context = context;
 		this.gift = gift;
 		this.lookup = lookup;
-	
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
@@ -45,18 +44,22 @@ public class GiftListAdapter extends ArrayAdapter<Gift> {
 		Gift gf = gift.get(position);
 		vholder.description.setText(gf.getDescription());
 		// rendering list of contributor
+
 		List<String> donors = lookup.listOfDonor(gf.getID());
-		String fr = "From: "+donors.get(0);
-		for(int i = 1; i < donors.size(); i++) {
-			fr.concat(", "+donors.get(i));
+		String fr = "";
+		if (!donors.isEmpty()) {
+			fr=fr+"From: "+donors.get(0);
+			for(int i = 1; i < donors.size(); i++) {
+				fr=fr+", "+donors.get(i);
+			}
 		}
-		Log.wtf("String", fr);
+
 		vholder.from.setText(fr);
+
 		//date
 		vholder.value.setText(String.format("$%.2f", lookup.giftValue(gf.getID())));
 		String d = String.format("%2d/%2d/%4d",gf.getMonth(),gf.getDay(),gf.getYear());
 		vholder.date.setText(d);
-		Log.wtf("date", d);
 		return rowView;
 	}
 

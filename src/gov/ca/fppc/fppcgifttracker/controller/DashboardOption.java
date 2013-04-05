@@ -17,6 +17,7 @@ public class DashboardOption extends DialogFragment {
 
 	private Button edit;
 	private Button add;
+	private Button list;
 	private SelectOption callback;
 	
 	@Override
@@ -36,6 +37,7 @@ public class DashboardOption extends DialogFragment {
 		View view = inflater.inflate(R.layout.edit_or_new_gift_fragment,container,false);
 		this.edit = (Button) view.findViewById(R.id.edit_source_btn);
 		this.add = (Button) view.findViewById(R.id.add_gift_btn);
+		this.list = (Button) view.findViewById(R.id.list_gift_btn);
 		this.getDialog().setTitle("What would you like to do?");
 		
 		edit.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +52,12 @@ public class DashboardOption extends DialogFragment {
 				callback.processOption(Constant.NEW);
 			}
 		});
-		
+		list.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				dismiss();
+				callback.processOption(Constant.OTHER);
+			}
+		});
 		return view;
 	}
 }

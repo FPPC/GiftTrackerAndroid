@@ -93,6 +93,13 @@ ListItemClick, OnItemSelectedListener {
 			}
 		});
 
+		Button showAll = (Button) this.findViewById(R.id.all_gifts);
+		showAll.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showAllGift();
+			}
+		});
 		/*setup fragment*/
 		sourceListFrag = (SourceListFragment) getFragmentManager()
 				.findFragmentById(R.id.source_list_fragment);
@@ -144,10 +151,15 @@ ListItemClick, OnItemSelectedListener {
 		switch (option) {
 		case Constant.EDIT:
 			editSource();
-			this.src = null;
+			/* after you process the choice, you clear it out of the holder */
+			this.src = null; 
 			break;
 		case Constant.NEW:
 			newGift();
+			this.src = null;
+			break;
+		case Constant.OTHER:
+			listGift();
 			this.src = null;
 			break;
 		}
@@ -184,6 +196,18 @@ ListItemClick, OnItemSelectedListener {
 		Intent intent = new Intent(this, NewGift.class);
 		intent.putExtra(Constant.SRC, this.src);
 		intent.putExtra(Constant.MODE,Constant.NEW);
+		this.startActivity(intent);
+	}
+	
+	private void listGift() {
+		Intent intent = new Intent(this, GiftList.class);
+		intent.putExtra(Constant.SRC, this.src);
+		this.startActivity(intent);
+	}
+	
+	private void showAllGift() {
+		Intent intent = new Intent(this, GiftList.class);
+		intent.putExtra(Constant.SRC, (Source) null);
 		this.startActivity(intent);
 	}
 

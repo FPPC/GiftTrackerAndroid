@@ -8,6 +8,7 @@ import gov.ca.fppc.fppcgifttracker.model.Source;
 import gov.ca.fppc.fppcgifttracker.model.SourceDAO;
 import gov.ca.fppc.fppcgifttracker.util.GiftComparator;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +18,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,12 +51,12 @@ public class GiftSearchFragment extends Fragment {
 		sgdao.close();
 		super.onDestroy();
 	}
-	
+
 	public void updateSource(Source source) {
 		this.source = source;
-		//TODO
+		filtering(searchtext.getText());
 	}
-	
+
 	@Override
 	public void onAttach(Activity a) {
 		super.onAttach(a);
@@ -64,12 +66,13 @@ public class GiftSearchFragment extends Fragment {
 			throw new ClassCastException(a.toString()+" must implement GiftItemList interface");
 		}
 	}
-	
+
 	@Override
 	public void onResume() {
+		super.onResume();
 		filtering(searchtext.getText());
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -81,15 +84,17 @@ public class GiftSearchFragment extends Fragment {
 		gdao.open();
 		sgdao = new GiftSourceRelationDAO(parent);
 		sgdao.open();
-		
+
+		source = null;
+
 		this.year = Calendar.getInstance().get(Calendar.YEAR);
-		
-		View view = inflater.inflate(R.layout.source_search_fragment, container, false);
+
+		View view = inflater.inflate(R.layout.gift_list_fragment, container, false);
 		this.giftList = (ListView) view.findViewById(R.id.gift_list_in_fragment);
 		this.searchtext = (EditText) view.findViewById(R.id.gift_search_bar);
-		
+
 		setup();
-		
+
 		searchtext.addTextChangedListener(new TextWatcher() {
 			public void afterTextChanged(Editable s) {
 				filtering(s);
@@ -97,7 +102,7 @@ public class GiftSearchFragment extends Fragment {
 			public void beforeTextChanged(CharSequence s, int start, int before, int count){}
 			public void onTextChanged(CharSequence s, int start, int before, int count){}
 		});
-		
+
 		giftList.setOnItemClickListener(new OnItemClickListener () {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -107,23 +112,40 @@ public class GiftSearchFragment extends Fragment {
 		});
 		return view;
 	}
-	
+
 	public void filtering(Editable s) {
-		if ((s.toString()).length() > 0) {
-			gift = gdao.filterGift(s.toString());
+		if (source == null) {
+			if ((s.toString()).length() > 0) {
+				gift.clear();
+				gift.addAll(gdao.filterGift(s.toString()));
+
+			} else {
+				gift.clear();
+				gift.addAll(gdao.getAllGift(year));
+				Collections.sort(gift, new GiftComparator());
+			
+			}
+			GiftListAdapter adapt = (GiftListAdapter) giftList.getAdapter();
+			adapt.notifyDataSetChanged();
 		} else {
-			gift = gdao.getAllGift(year);
-			Collections.sort(gift, new GiftComparator());
+			if ((s.toString()).length() > 0) {
+				gift.clear();
+				gift.addAll(sgdao.filterGiftFrom(source.getID(), year, s.toString()));
+				
+			} else {
+				gift.clear();
+				gift.addAll(sgdao.allGiftFrom(source.getID(), year));
+				Collections.sort(gift,new GiftComparator());
+			}
 		}
 		GiftListAdapter adapt = (GiftListAdapter) giftList.getAdapter();
 		adapt.notifyDataSetChanged();
 	}
-	
+
 	public void setup() {
-		gift = this.gdao.getAllGift(year);
-		Collections.sort(gift, new GiftComparator());
+		gift = new ArrayList<Gift>();
 		ArrayAdapter<Gift> adapter = new GiftListAdapter(parent, gift, sgdao);
 		giftList.setAdapter(adapter);
 	}
-	
+
 }
