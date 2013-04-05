@@ -162,6 +162,10 @@ ListItemClick, OnItemSelectedListener {
 			listGift();
 			this.src = null;
 			break;
+		case Constant.DELETE:
+			deleteSource();
+			this.src = null;
+			break;
 		}
 	}
 	/*interface OnItemSelectedListener*/
@@ -198,17 +202,24 @@ ListItemClick, OnItemSelectedListener {
 		intent.putExtra(Constant.MODE,Constant.NEW);
 		this.startActivity(intent);
 	}
-	
+
 	private void listGift() {
 		Intent intent = new Intent(this, GiftList.class);
 		intent.putExtra(Constant.SRC, this.src);
 		this.startActivity(intent);
 	}
-	
+
 	private void showAllGift() {
 		Intent intent = new Intent(this, GiftList.class);
 		intent.putExtra(Constant.SRC, (Source) null);
 		this.startActivity(intent);
+	}
+
+	private void deleteSource() {
+		if (src != null) {
+			sdao.deleteSource(src);
+			sourceListFrag.filtering(null);
+		}
 	}
 
 }

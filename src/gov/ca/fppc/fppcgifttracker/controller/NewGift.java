@@ -40,7 +40,6 @@ public class NewGift extends Activity {
 	private ListView selectedList;
 	private TextWatcher tw;
 	private List<Source> selected;
-	private List<Double> contribution;
 	private Intent i;
 	private GiftDAO gdao;
 	private GiftSourceRelationDAO sgdao;
@@ -56,7 +55,6 @@ public class NewGift extends Activity {
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState.putSerializable("source_list", (Serializable) this.selected);
-		savedInstanceState.putSerializable("contribution", (Serializable) this.contribution);
 	}
 
 	@Override
@@ -91,6 +89,7 @@ public class NewGift extends Activity {
 		editMonth.setText(String.format("%d",1+today.get(Calendar.MONTH)));
 		editDay.setText(String.format("%d",today.get(Calendar.DAY_OF_MONTH)));
 		correctDate = true;
+
 		/* make the text watcher for verifying date*/
 		tw = new TextWatcher() {
 			public void afterTextChanged(Editable s) {
@@ -169,6 +168,7 @@ public class NewGift extends Activity {
 		ContributionAdapter srcAdapt = new ContributionAdapter(this, selected, sgdao, gid,valueUpdater);
 		selectedList.setAdapter(srcAdapt);
 		hasItem = !(selectedList.getCount()==0);
+		fixDate();
 	}
 
 
@@ -218,7 +218,25 @@ public class NewGift extends Activity {
 		}
 	}
 	private void processEdit() {
-		//TODO
+		Gift g = (Gift) i.getSerializableExtra(Constant.GFT);
+		// populate the text view items
+		this.gid = g.getID();
+		this.editYear.setText(""+g.getYear());
+		this.editMonth.setText(""+g.getMonth());
+		this.editDay.setText(""+g.getDay());
+		this.description.setText(g.getDescription());
+		fixDate();
+		//selected and contribution
+		selected.clear();
+		selected.addAll(sgdao.listOfDonor(gid));
+
+		double sum = 0.0;
+		double value = 0.0;
+		for(int i =0; i < selected.size();i++) {
+			value = sgdao.getValue(gid, selected.get(i).getID());
+			sum+=value;
+		}
+		sumDisplay.setText(String.format("$%.2f",sum));
 	}
 
 	/* Check the date */
@@ -255,13 +273,20 @@ public class NewGift extends Activity {
 			int month = Integer.parseInt(editMonth.getText().toString());
 			int day = Integer.parseInt(editDay.getText().toString());
 			String des = description.getText().toString();
-			Gift g = gdao.createGift(year, month, day, des);
+			Gift g;
+			if (mode == Constant.NEW) {
+				g = gdao.createGift(year, month, day, des);
+
+			} else {
+				g = new Gift(gid, year, month, day, des);
+				gdao.updateGift(g);
+			}	
 			/*now the value*/
 			for(int i = 0; i < selectedList.getCount();i++) {
 				EditText contribution = (EditText) selectedList.getChildAt(i).findViewById(R.id.contribution);
 				double value = Double.parseDouble(contribution.getText().toString());
 				long sid = selected.get(i).getID();
-				sgdao.createRelation(sid, g.getID(), value);
+				sgdao.createRelationIfNotExist(sid, g.getID(), value);
 			}
 		}
 	}

@@ -14,7 +14,8 @@ import gov.ca.fppc.fppcgifttracker.model.*;
 public class ContributionAdapter extends ArrayAdapter<Source>{
 	private final Context context;
 	private List<Source> source;
-	private GiftSourceRelationDAO lookup;
+	private List<Double> contribution;
+ 	private GiftSourceRelationDAO lookup;
 	private Long gid;
 	private View.OnFocusChangeListener valueUpdater;
 	/*
@@ -22,11 +23,12 @@ public class ContributionAdapter extends ArrayAdapter<Source>{
 	 * Sort by allowance left
 	 */
 	
-	public ContributionAdapter(Context context, List<Source> source, 
+	public ContributionAdapter(Context context, List<Source> source,
 			GiftSourceRelationDAO lookup, long gid, View.OnFocusChangeListener valueUpdater) {
 		super(context, R.layout.contribution_list,source);
 		this.context = context;
 		this.source = source;
+		this.contribution = contribution;
 		this.lookup = lookup;
 		this.gid=gid;
 		this.valueUpdater = valueUpdater;

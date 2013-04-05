@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class SourceDAO {
 
@@ -100,13 +101,21 @@ public class SourceDAO {
 		return updateID;
 	}
 
-	public void deleteSource(Source src) {
+	public void deleteSource(Source src) {		
 		long id = src.getID();
-		System.out.println("Deleted source's ID: " + id);
-		db.delete(SQLiteHelper.TABLE_SOURCE, SQLiteHelper.SOURCE_ID + " = "
-				+ id, null);
+		//delete all gift valued associated with the source
+		String where = SQLiteHelper.SOURCE_ID + " = ?";
+		String [] args = {""+id};
+		db.delete(SQLiteHelper.TABLE_GIVING,where,args); 
+		
+		int tf = 0;
+		int wt = 0;
+		//delete the source
+		tf = db.delete(SQLiteHelper.TABLE_SOURCE,where,args);
 		//mirror move on the index table
-		db.delete(SQLiteHelper.SOURCE_TABLE_FTS, SQLiteHelper.DOC_ID + " = " + id, null);
+		where = SQLiteHelper.DOC_ID + " = ?";
+		wt = db.delete(SQLiteHelper.SOURCE_TABLE_FTS, where, args);
+		Log.wtf(""+tf,""+wt);
 	}
 
 	public List<Source> getAllSource() {

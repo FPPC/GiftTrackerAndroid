@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class GiftSourceRelationDAO {
 	/**
@@ -27,7 +28,7 @@ public class GiftSourceRelationDAO {
 		db = dbhelper.getWritableDatabase();
 	}
 
-	public List<String> listOfDonor(long gid) {
+	public List<String> nameOfDonor(long gid) {
 		ArrayList<String> result = new ArrayList<String>();
 		/*raw query builder */
 		/*
@@ -45,6 +46,23 @@ public class GiftSourceRelationDAO {
 		if (cursor.moveToFirst()) {
 			while (!cursor.isAfterLast()) {
 				result.add(cursor.getString(0));
+				cursor.moveToNext();
+			}
+		}
+		return result;
+	}
+
+	public List<Source> listOfDonor(long gid) {
+		ArrayList<Source> result = new ArrayList<Source>();
+		String query = "SELECT S.* FROM "
+				+SQLiteHelper.TABLE_SOURCE+" S JOIN "+SQLiteHelper.TABLE_GIVING+" G "
+				+"ON G."+SQLiteHelper.SOURCE_ID+" = S."+SQLiteHelper.SOURCE_ID+" "
+				+"AND G."+SQLiteHelper.GIFT_ID+" = ?";
+		String [] args = {""+gid};
+		Cursor cursor = db.rawQuery(query, args);
+		if (cursor.moveToFirst()) {
+			while (!cursor.isAfterLast()) {
+				result.add(SourceDAO.cursorToSource(cursor));
 				cursor.moveToNext();
 			}
 		}
@@ -178,12 +196,20 @@ public class GiftSourceRelationDAO {
 		}
 		cursor.close();
 		return sum;
-	}	public long createRelation(long sourceID, long giftID, double value) {
+	}	
+	public long createRelationIfNotExist(long sourceID, long giftID, double value) {
 		ContentValues values = new ContentValues();
 		values.put(SQLiteHelper.SOURCE_ID, sourceID);
 		values.put(SQLiteHelper.GIFT_ID, giftID);
 		values.put(SQLiteHelper.VALUE, value);
 
+		String[] column = new String[] {SQLiteHelper.VALUE};
+		String where = SQLiteHelper.GIFT_ID + " = ? AND "+ SQLiteHelper.SOURCE_ID + " = ?";
+		String[] v = new String[] {Long.toString(giftID),Long.toString(sourceID)};
+		Cursor c = db.query(SQLiteHelper.TABLE_GIVING, column, where, v,null,null,null);
+		if (c.moveToFirst()) {
+			return db.update(SQLiteHelper.TABLE_GIVING, values, where, v);
+		}		
 		return db.insert(SQLiteHelper.TABLE_GIVING, null, values);
 	}
 
@@ -247,7 +273,7 @@ public class GiftSourceRelationDAO {
 				+"JOIN "+SQLiteHelper.TABLE_SOURCE+" S ON S."+SQLiteHelper.SOURCE_ID+" = V."+SQLiteHelper.SOURCE_ID+" "
 				+"JOIN "+SQLiteHelper.GIFT_TABLE_FTS+" I ON V."+SQLiteHelper.GIFT_ID+" = I."+SQLiteHelper.DOC_ID+" "
 				+"WHERE S."+SQLiteHelper.SOURCE_ID+" = ? AND I."+SQLiteHelper.CONTENT+" MATCH ? AND G."+SQLiteHelper.GIFT_YEAR+" = ?";
-		String [] args = {""+sid,s,""+year};
+		String [] args = {""+sid,s+"*",""+year};
 		Cursor cursor = db.rawQuery(query, args);
 		if (cursor.moveToFirst()) {
 			while (!cursor.isAfterLast()) {
@@ -258,6 +284,6 @@ public class GiftSourceRelationDAO {
 		}
 		cursor.close();
 		return result;
-		}
-
 	}
+
+}

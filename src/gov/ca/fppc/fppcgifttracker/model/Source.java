@@ -57,7 +57,11 @@ public class Source implements Serializable {
 	}
 
 	public double getLimit() {
-		return (lobby == 0)?Constant.GIFT_LIMIT:Constant.LOBBY_LIMIT;
+		return Constant.GIFT_LIMIT;
+	}
+	
+	public double getLobbyLimit() {
+		return Constant.LOBBY_LIMIT;
 	}
 
 	public double getLimitLeft(GiftSourceRelationDAO r, int year, int month) {

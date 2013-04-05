@@ -8,7 +8,8 @@ public class Constant {
 	public static final String MODE = "mode";
 	public static final int EDIT = 1;
 	public static final int NEW = 2;
-	public static final int OTHER = 3;
+	public static final int DELETE = 3;
+	public static final int OTHER = 4;
 	public static final int APPEND_SOURCE = 3;
 	public static final double GIFT_LIMIT = 440.0;
 	public static final double LOBBY_LIMIT = 10.0;

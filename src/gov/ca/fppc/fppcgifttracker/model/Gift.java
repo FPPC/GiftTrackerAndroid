@@ -12,6 +12,17 @@ public class Gift implements Serializable {
 	private int month;
 	private int day;
 	private String description;
+	
+	public Gift () {
+	}
+	
+	public Gift (long id, int year, int month, int day, String description) {
+		this.id = id;
+		this.year = year;
+		this.month = month;
+		this.day = day;
+		this.description = description;
+	}
 
 	public long getID() {
 		return id;

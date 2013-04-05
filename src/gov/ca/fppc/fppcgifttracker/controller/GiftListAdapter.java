@@ -45,7 +45,7 @@ public class GiftListAdapter extends ArrayAdapter<Gift> {
 		vholder.description.setText(gf.getDescription());
 		// rendering list of contributor
 
-		List<String> donors = lookup.listOfDonor(gf.getID());
+		List<String> donors = lookup.nameOfDonor(gf.getID());
 		String fr = "";
 		if (!donors.isEmpty()) {
 			fr=fr+"From: "+donors.get(0);

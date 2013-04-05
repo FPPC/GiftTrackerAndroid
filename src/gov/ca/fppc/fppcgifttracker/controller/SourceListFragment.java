@@ -118,7 +118,7 @@ public class SourceListFragment extends DialogFragment{
 		return view;
 	}
 	public void filtering(Editable s) {
-		if (s.toString().length() > 0) {
+		if ((s != null) && (s.toString().length() > 0)) {
 			source = sdao.filterSource(s.toString());
 		} else {
 			source = sdao.getAllSource();;

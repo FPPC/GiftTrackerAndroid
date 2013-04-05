@@ -11,10 +11,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 public class GiftDAO {
-	/**
-	 * 
-	 */
-
 
 	private SQLiteDatabase db;
 	private SQLiteHelper dbhelper;
@@ -27,6 +23,21 @@ public class GiftDAO {
 
 	public void open() throws SQLException {
 		db = dbhelper.getWritableDatabase();
+	}
+	
+	public void deleteGift(Gift gft) {
+		long gid = gft.getID();
+		//delete entries in relation table
+		/* DELETE * FROM TABLE_GIVING WHERE GIFT_ID = ? */
+		String where = SQLiteHelper.GIFT_ID + " = ?";
+		String [] args = {""+gid};
+		db.delete(SQLiteHelper.TABLE_GIVING, where, args);
+		
+		/*DELETE * FROM TABLE_GIFT WHERE GIFT_ID = ? */
+		db.delete(SQLiteHelper.TABLE_GIFT, where, args);
+		/* delete the entry in index table too */
+		where = SQLiteHelper.DOC_ID + " = ?";
+		db.delete(SQLiteHelper.GIFT_TABLE_FTS, where, args);
 	}
 
 	public void close() {
@@ -110,13 +121,6 @@ public class GiftDAO {
 		gft.setDay(cursor.getInt(3));
 		gft.setDescription(cursor.getString(4));
 		return gft;
-	}
-
-	public void deleteGift(Gift gft) {
-		long id = gft.getID();
-		System.out.println("Deleted entry's ID: " + id);
-		db.delete(SQLiteHelper.TABLE_GIFT, SQLiteHelper.GIFT_ID + " = " + id,
-				null);
 	}
 
 	public List<Gift> getAllGift(int year) {
