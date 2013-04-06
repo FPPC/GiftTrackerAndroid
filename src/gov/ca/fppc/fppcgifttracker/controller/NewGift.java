@@ -6,18 +6,22 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import gov.ca.fppc.fppcgifttracker.R;
+import gov.ca.fppc.fppcgifttracker.controller.ContributionOptionFragment.ContributionOption;
 import gov.ca.fppc.fppcgifttracker.model.Gift;
 import gov.ca.fppc.fppcgifttracker.model.GiftDAO;
 import gov.ca.fppc.fppcgifttracker.model.GiftSourceRelationDAO;
@@ -25,7 +29,7 @@ import gov.ca.fppc.fppcgifttracker.model.Source;
 import gov.ca.fppc.fppcgifttracker.model.SourceDAO;
 import gov.ca.fppc.fppcgifttracker.util.MiscUtil;
 
-public class NewGift extends Activity {
+public class NewGift extends Activity implements ContributionOption {
 
 	private EditText editYear;
 	private EditText editMonth;
@@ -36,10 +40,12 @@ public class NewGift extends Activity {
 	private Button cancel;
 	private Button save;
 	private Button add;
+	private Button edit;
 	private Calendar today;
 	private ListView selectedList;
 	private TextWatcher tw;
 	private List<Source> selected;
+	private List<Source> removal;
 	private Intent i;
 	private GiftDAO gdao;
 	private GiftSourceRelationDAO sgdao;
@@ -50,23 +56,28 @@ public class NewGift extends Activity {
 	private boolean hasItem;
 	private boolean correctDate;
 
+	private Source chosenSource;
+
 	/*save and load*/
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState.putSerializable("source_list", (Serializable) this.selected);
+		savedInstanceState.putSerializable("remove_list", (Serializable) this.removal);
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.new_gift);
-
+		chosenSource = null;
 		/* init the source list */
 		if (savedInstanceState ==null) {
 			selected = new ArrayList<Source>();
+			removal = new ArrayList<Source>();
 		} else {
 			selected = (List<Source>) savedInstanceState.getSerializable("source_list");
+			removal = (List<Source>) savedInstanceState.getSerializable("remove_list");
 		}
 
 		/* get view handles */
@@ -78,6 +89,8 @@ public class NewGift extends Activity {
 		cancel = (Button)this.findViewById(R.id.new_gift_cancel);
 		save = (Button)this.findViewById(R.id.new_gift_save);
 		add = (Button)this.findViewById(R.id.new_gift_add_source);
+		edit = (Button)this.findViewById(R.id.edit_contribution);
+		
 		selectedList = (ListView)this.findViewById(R.id.selected_src_list);
 		sumDisplay = (TextView)this.findViewById(R.id.totalvalue);
 		/* get today date*/
@@ -122,19 +135,7 @@ public class NewGift extends Activity {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
-					double sum = 0.0;
-					for(int i = 0; i < selectedList.getCount();i++) {
-						try {
-							EditText contribution = (EditText) selectedList.getChildAt(i).findViewById(R.id.contribution);
-							double value = Double.parseDouble(contribution.getText().toString());
-							sum+= value;
-						} catch (NullPointerException E) {
-							sum+=0.0;
-						} catch (NumberFormatException n) {
-							sum+=0.0;
-						}
-					}
-					sumDisplay.setText(String.format("  $%.2f", sum));
+					updateSum();
 				}
 			}
 		};
@@ -162,15 +163,81 @@ public class NewGift extends Activity {
 				finish();
 			}
 		});
+		edit.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				setEdit();
+			}
+		});
+		
+	}
+	
+	private void updateSum() {
+		double sum = 0.0;
+		for(int i = 0; i < selectedList.getCount();i++) {
+			try {
+				EditText contribution = (EditText) selectedList.getChildAt(i).findViewById(R.id.contribution);
+				double value = Double.parseDouble(contribution.getText().toString());
+				sum+= value;
+			} catch (NullPointerException E) {
+				sum+=0.0;
+			} catch (NumberFormatException n) {
+				sum+=0.0;
+			}
+		}
+		sumDisplay.setText(String.format("  $%.2f", sum));
 	}
 
+	private void setEdit() {
+		ContributionAdapter srcAdapt = (ContributionAdapter) selectedList.getAdapter();
+		srcAdapt.toggleEdit();
+		if (edit.getText().toString().equals("Edit Value")) {
+			edit.setText("Finish Edit");
+		} else {
+			edit.setText("Edit Value");
+			updateSum();
+		}
+	}
 	private void setupAdapter() {
 		ContributionAdapter srcAdapt = new ContributionAdapter(this, selected, sgdao, gid,valueUpdater);
 		selectedList.setAdapter(srcAdapt);
+		selectedList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position,
+					long id) {
+				ContributionAdapter a = (ContributionAdapter) selectedList.getAdapter();
+				processChosenSource(a.getItem(position));
+				Log.wtf("item clicked", ""+position);
+			}
+		});
+		Log.wtf("Ran", "it should have been set");
 		hasItem = !(selectedList.getCount()==0);
 		fixDate();
 	}
 
+	private void processChosenSource(Source src) {
+		this.chosenSource = src;
+		FragmentManager fm = getFragmentManager();
+		ContributionOptionFragment popup = new ContributionOptionFragment();
+		popup.show(fm,"confirm");
+	}
+
+	public void processOption(int option) {
+		switch (option) {
+		case Constant.DELETE:
+			deleteContrib();
+			this.chosenSource = null;
+			break;
+		}
+	}
+
+	private void deleteContrib() {
+		ContributionAdapter a = (ContributionAdapter) selectedList.getAdapter();
+		selected.remove(chosenSource);
+		removal.add(chosenSource);
+		a.notifyDataSetChanged();
+	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -267,7 +334,6 @@ public class NewGift extends Activity {
 
 	private void saveGift() {
 		/*save to table gift*/
-		Log.wtf((correctDate)?"ok":"date", (hasItem)?"okay":"item");
 		if (correctDate && hasItem) {
 			int year = Integer.parseInt(editYear.getText().toString());
 			int month = Integer.parseInt(editMonth.getText().toString());
@@ -288,6 +354,12 @@ public class NewGift extends Activity {
 				long sid = selected.get(i).getID();
 				sgdao.createRelationIfNotExist(sid, g.getID(), value);
 			}
+			
+			for(int i = 0; i < removal.size();i++) {
+				sgdao.deleteRelation(removal.get(i).getID(), gid);
+			}
+			removal.clear();
+			updateSum();
 		}
 	}
 

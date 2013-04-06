@@ -11,18 +11,20 @@ import android.widget.TextView;
 import gov.ca.fppc.fppcgifttracker.R;
 import gov.ca.fppc.fppcgifttracker.model.Gift;
 import gov.ca.fppc.fppcgifttracker.model.GiftSourceRelationDAO;
+import gov.ca.fppc.fppcgifttracker.model.Source;
 
 public class GiftListAdapter extends ArrayAdapter<Gift> {
 	private final Context context;
 	private List<Gift> gift;
 	private GiftSourceRelationDAO lookup;
-
+	private Source source;
 
 	public GiftListAdapter(Context context, List<Gift> gift, GiftSourceRelationDAO lookup) {
 		super(context, R.layout.gift_fragment_item, gift);
 		this.context = context;
 		this.gift = gift;
 		this.lookup = lookup;
+		this.source = null;
 	}
 
 	@Override
@@ -41,6 +43,7 @@ public class GiftListAdapter extends ArrayAdapter<Gift> {
 		} else {
 			vholder = (ListViewHolder) rowView.getTag();
 		}
+		
 		Gift gf = gift.get(position);
 		vholder.description.setText(gf.getDescription());
 		// rendering list of contributor
@@ -56,11 +59,19 @@ public class GiftListAdapter extends ArrayAdapter<Gift> {
 
 		vholder.from.setText(fr);
 
-		//date
-		vholder.value.setText(String.format("$%.2f", lookup.giftValue(gf.getID())));
+		if (this.source == null) {
+			vholder.value.setText(String.format("$%.2f", lookup.giftValue(gf.getID())));
+		} else {
+			vholder.value.setText(String.format("$%.2f",lookup.getValue(gf.getID(), source.getID())));
+		}
+		
 		String d = String.format("%2d/%2d/%4d",gf.getMonth(),gf.getDay(),gf.getYear());
 		vholder.date.setText(d);
 		return rowView;
+	}
+		
+	public void updateSource(Source source) {
+		this.source = source;
 	}
 
 	static private class ListViewHolder {

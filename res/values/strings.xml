@@ -37,5 +37,9 @@
         <item>December</item>
     </string-array>
         <string name="search_gift">Search gift</string>
+        <string name="edit">Edit</string>
+        <string name="delete_source">Delete Source</string>
+        <string name="yes">Yes</string>
+        <string name="no">No</string>
 
 </resources>

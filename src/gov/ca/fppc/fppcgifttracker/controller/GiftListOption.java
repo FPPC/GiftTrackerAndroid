@@ -11,7 +11,7 @@ import android.widget.Button;
 
 public class GiftListOption extends DialogFragment {
 	public interface GiftSelectOption {
-		public void processOption(int choise);
+		public void processOption(int choice);
 	}
 	
 	private Button delete;

@@ -3,6 +3,7 @@ package gov.ca.fppc.fppcgifttracker.controller;
 import java.util.List;
 import gov.ca.fppc.fppcgifttracker.R;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ public class ContributionAdapter extends ArrayAdapter<Source>{
  	private GiftSourceRelationDAO lookup;
 	private Long gid;
 	private View.OnFocusChangeListener valueUpdater;
+	private EditText contrib;
+	private boolean state;
 	/*
 	 * Make comparator for sort
 	 * Sort by allowance left
@@ -32,6 +35,7 @@ public class ContributionAdapter extends ArrayAdapter<Source>{
 		this.lookup = lookup;
 		this.gid=gid;
 		this.valueUpdater = valueUpdater;
+		this.state = false;
 	}
 		
 	@Override
@@ -69,7 +73,17 @@ public class ContributionAdapter extends ArrayAdapter<Source>{
 			vholder.s_contribution.setText("");
 		}*/
 		vholder.s_contribution.setOnFocusChangeListener(valueUpdater);
+		contrib = vholder.s_contribution;
+		vholder.s_contribution.setFocusable(state);
+		//TODO
+		boolean debug = vholder.s_contribution.requestFocus();
+		Log.wtf("focused?",debug?"yes":"no");
 		return rowView;
+	}
+	
+	public void toggleEdit() {
+		state = !state;
+		Log.wtf("state: "+contrib.getText().toString(), state?"true":"false");
 	}
 	
 	public Source getSource(int position) {

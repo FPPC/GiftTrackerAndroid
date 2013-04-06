@@ -8,36 +8,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-
         <Button
             android:id="@+id/edit_gift_btn"
             style="@style/summary_text"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="@string/edit_source" />
+            android:text="@string/edit" />
         <Button
-            android:id="@+id/delete_src_btn"
+            android:id="@+id/delete_gift_btn"
             style="@style/summary_text"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="@string/delete_source" />
-        <Button
-            android:id="@+id/add_gift_btn"
-            style="@style/summary_text"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="@string/add_gift" />
-
-        <Button
-            android:id="@+id/list_gift_btn"
-            style="@style/summary_text"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="@string/list_of_gift" />
+            android:text="@string/delete" />
     </LinearLayout>
 
 </LinearLayout>

@@ -13,7 +13,7 @@
         layout="@layout/general_header" />
 
     <TableLayout
-        android:id="@+id/tab1"
+        android:id="@+id/source_info_dash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -116,15 +116,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/all_gifts"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Recent Items" />
-
+            android:text="Show all gifts" />
         <Button
             android:id="@+id/dashboard_add_btn"
             style="?android:attr/buttonStyleSmall"

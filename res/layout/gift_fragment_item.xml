@@ -35,7 +35,7 @@
 
     </LinearLayout>
     <TextView
-        android:id="@+id/TextView01"
+        android:id="@+id/address"
         style="@style/summary_text"
         android:layout_width="0px"
         android:layout_height="match_parent"

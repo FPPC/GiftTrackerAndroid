@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+    <include
+        android:id="@+id/general_header_ref"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/general_header" />
+    <LinearLayout
+        android:id="@+id/gift_info_wrap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <TextView
+            android:id="@+id/source_name_in_dash"
+            style="@style/summary_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textColor="@color/FPPC_blue" />
+        <TextView
+            android:id="@+id/job"
+            style="@style/summary_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Job"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/address"
+            style="@style/summary_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:textColor="@color/black_overlay" />
+        <LinearLayout
+            android:id="@+id/total_receive_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp" >
+            <TextView
+                android:id="@+id/TextView01"
+                style="@style/summary_text.italic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Total received:"
+                android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/total_received"
+                style="@style/summary_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="$123"
+                android:textColor="@color/dollar_green" />
+        </LinearLayout>
+    </LinearLayout>
+    <fragment
+        android:id="@+id/gift_list_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        class="gov.ca.fppc.fppcgifttracker.controller.GiftSearchFragment"
+        tools:layout="@layout/gift_list_fragment" >
+    </fragment>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <Button
+            android:id="@+id/all_gifts"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Recent Items" />
+        <Button
+            android:id="@+id/dashboard_add_btn"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Add Source" />
+    </LinearLayout>
+</LinearLayout>

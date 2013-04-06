@@ -7,10 +7,15 @@
         <ignore path="res\layout\contribution_list.xml" />
         <ignore path="res\layout\dashboard.xml" />
         <ignore path="res\layout\general_header.xml" />
+        <ignore path="res\layout\gift_dashboard.xml" />
         <ignore path="res\layout\gift_fragment_item.xml" />
         <ignore path="res\layout\new_gift.xml" />
         <ignore path="res\layout\source_item_view.xml" />
         <ignore path="res\layout\source_item_view_candidate.xml" />
         <ignore path="res\layout\source_item_view_in_new_gift.xml" />
+    </issue>
+    <issue id="UselessParent">
+        <ignore path="res\layout\contrib_option_frag.xml" />
+        <ignore path="res\layout\gift_select_option_frag.xml" />
     </issue>
 </lint>

@@ -54,6 +54,8 @@ public class GiftSearchFragment extends Fragment {
 
 	public void updateSource(Source source) {
 		this.source = source;
+		GiftListAdapter adapt = (GiftListAdapter) giftList.getAdapter();
+		adapt.updateSource(source);
 		filtering(searchtext.getText());
 	}
 

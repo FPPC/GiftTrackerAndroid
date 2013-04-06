@@ -62,7 +62,7 @@ public class GiftList extends Activity implements GiftItemClick, GiftSelectOptio
 		intent.putExtra(Constant.MODE, Constant.EDIT);
 		this.startActivity(intent);
 	}
-	
+
 	private void deleteGift() {
 		if (chosenGift !=null) {
 			gdao.deleteGift(chosenGift);
@@ -117,15 +117,17 @@ public class GiftList extends Activity implements GiftItemClick, GiftSelectOptio
 			updateReceived();
 		}
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		updateReceived();
 	}
-	
+
 	private void updateReceived()
 	{
-		totalReceived.setText(String.format("$%.2f",sgdao.totalReceived(src.getID(), Calendar.getInstance().get(Calendar.YEAR))));
+		if (src !=null ){
+			totalReceived.setText(String.format("$%.2f",sgdao.totalReceived(src.getID(), Calendar.getInstance().get(Calendar.YEAR))));
+		}
 	}
 }
