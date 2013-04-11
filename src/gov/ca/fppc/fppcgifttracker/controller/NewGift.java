@@ -55,6 +55,8 @@ public class NewGift extends Activity implements ContributionOption {
 	private View.OnFocusChangeListener valueUpdater;
 	private boolean hasItem;
 	private boolean correctDate;
+	
+	private boolean state;
 
 	private Source chosenSource;
 
@@ -79,6 +81,7 @@ public class NewGift extends Activity implements ContributionOption {
 			selected = (List<Source>) savedInstanceState.getSerializable("source_list");
 			removal = (List<Source>) savedInstanceState.getSerializable("remove_list");
 		}
+		state = false;
 
 		/* get view handles */
 		dateError = (TextView)this.findViewById(R.id.date_error);
@@ -190,11 +193,18 @@ public class NewGift extends Activity implements ContributionOption {
 
 	private void setEdit() {
 		ContributionAdapter srcAdapt = (ContributionAdapter) selectedList.getAdapter();
-		srcAdapt.toggleEdit();
-		if (edit.getText().toString().equals("Edit Value")) {
+		ArrayList<EditText> allEd = new ArrayList<EditText>();
+		for(int i = 0; i < selectedList.getChildCount(); i++) {
+			View temp = selectedList.getChildAt(i).findViewById(R.id.contribution);
+			if (temp instanceof EditText) {
+				allEd.add((EditText) temp);
+			}
+		}
+		srcAdapt.toggleEdit(allEd);
+		if (edit.getText().toString().equals("Edit Amount")) {
 			edit.setText("Finish Edit");
 		} else {
-			edit.setText("Edit Value");
+			edit.setText("Edit Amount");
 			updateSum();
 		}
 	}
@@ -208,10 +218,8 @@ public class NewGift extends Activity implements ContributionOption {
 					long id) {
 				ContributionAdapter a = (ContributionAdapter) selectedList.getAdapter();
 				processChosenSource(a.getItem(position));
-				Log.wtf("item clicked", ""+position);
 			}
 		});
-		Log.wtf("Ran", "it should have been set");
 		hasItem = !(selectedList.getCount()==0);
 		fixDate();
 	}

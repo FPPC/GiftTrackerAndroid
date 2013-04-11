@@ -14,14 +14,12 @@
         android:layout_gravity="center"
         android:layout_weight="1"
         android:orientation="vertical" >
-
         <TextView
             android:id="@+id/name"
             style="@style/header_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/fair_political_practice_commission" />
-
+            android:text="@string/fair_political_practices_commission" />
         <TextView
             android:id="@+id/activity"
             style="@style/header_title"

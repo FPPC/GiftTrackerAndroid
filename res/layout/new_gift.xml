@@ -100,7 +100,6 @@
             android:id="@+id/value_display"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
-
             <TextView
                 android:id="@+id/from"
                 style="@style/summary_text"
@@ -108,8 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
                 android:gravity="right"
-                android:text="Gift Value:" />
-
+                android:text="Total Value of Gift:" />
             <TextView
                 android:id="@+id/totalvalue"
                 style="@style/summary_text"
@@ -130,41 +128,43 @@
         android:background="@color/white"
         android:scrollbars="vertical" >
     </ListView>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/new_gift_cancel"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cancel" />
-        <Button
-            android:id="@+id/edit_contribution"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Edit Value" />
-
         <Button
             android:id="@+id/new_gift_add_source"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add Source" />
-
+            android:text="@string/add_source" />
+        <Button
+            android:id="@+id/edit_contribution"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/edit_amount"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <Button
+            android:id="@+id/new_gift_cancel"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:textSize="16sp" />
         <Button
             android:id="@+id/new_gift_save"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Save" />
+            android:text="@string/save" />
         
     </LinearLayout>
 

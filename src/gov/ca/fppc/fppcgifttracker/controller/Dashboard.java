@@ -1,9 +1,14 @@
 package gov.ca.fppc.fppcgifttracker.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
+
+import jxl.write.WriteException;
 
 import gov.ca.fppc.fppcgifttracker.controller.DashboardOption.SelectOption;
 import gov.ca.fppc.fppcgifttracker.controller.SourceListFragment.ListItemClick;
+import gov.ca.fppc.fppcgifttracker.model.ExportData;
 import gov.ca.fppc.fppcgifttracker.model.GiftDAO;
 import gov.ca.fppc.fppcgifttracker.model.GiftSourceRelationDAO;
 import gov.ca.fppc.fppcgifttracker.model.Source;
@@ -14,6 +19,7 @@ import gov.ca.fppc.fppcgifttracker.R;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +32,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class Dashboard extends Activity implements SelectOption, 
-ListItemClick, OnItemSelectedListener {
+ListItemClick, OnItemSelectedListener, EmailOption.SelectEmailOption {
 	private SourceDAO sdao;
 	private GiftDAO gdao;
 	private GiftSourceRelationDAO sgdao;
@@ -98,6 +104,17 @@ ListItemClick, OnItemSelectedListener {
 			@Override
 			public void onClick(View v) {
 				showAllGift();
+			}
+		});
+		
+		Button email = (Button) this.findViewById(R.id.email_out);
+		email.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				FragmentManager fm = getFragmentManager();
+				EmailOption option = new EmailOption();
+				option.show(fm,"email");
 			}
 		});
 		/*setup fragment*/
@@ -219,6 +236,37 @@ ListItemClick, OnItemSelectedListener {
 		if (src != null) {
 			sdao.deleteSource(src);
 			sourceListFrag.filtering(null);
+		}
+	}
+
+	@Override
+	public void send(String email) {
+		ExportData exporter = new ExportData(this);
+		WriteExcel writeout = new WriteExcel();
+		writeout.setFileName(Constant.FILE_LOC);
+		try {
+			writeout.write(exporter.export());
+		} catch (WriteException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+		emailIntent.setType("application/excel");
+		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] {email}); 
+
+		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, Constant.SUBJECT); 
+		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, Constant.MESSAGE); 
+
+		File file = new File(Constant.FILE_LOC);
+		
+		if (file.exists())
+		{
+			
+			emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+  Constant.FILE_LOC));
+			this.startActivity(Intent.createChooser(emailIntent, "Choose your mail client"));
 		}
 	}
 

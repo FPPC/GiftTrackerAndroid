@@ -12,7 +12,13 @@ public class Source implements Serializable {
 	private static final long serialVersionUID = 9205192131398484971L;
 	private long id;
 	private String name;
-	private String address;
+	private String address1;
+	private String address2;
+	private String city;
+	private String state;
+	private String zip;
+	private String email;
+	private String phone;
 	private String activity;
 	private int lobby;
 
@@ -33,13 +39,66 @@ public class Source implements Serializable {
 	}
 
 	public String getAddress() {
-		return address;
+		String a = address1;
+		String a2 = address2;
+		String c = city;
+		String s = state;
+		a=(a.isEmpty()?"":a+", ");
+		a2=a2.isEmpty()?"":a2+", ";
+		c=c.isEmpty()?"":c+", ";
+		s=s.isEmpty()?"":s+", ";
+		return a+a2+c+s+zip;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setAddress1(String address1) {
+		this.address1 = address1;
 	}
-
+	
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	
+	public String getAddress1() {
+		return address1;
+	}
+	public String getAddress2() {
+		return address2;
+	}
+	public String getCity() {
+		return city;
+	}
+	public String getState() {
+		return state;
+	}
+	public String getZip() {
+		return zip;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public String getPhone() {
+		return phone;
+	}
+	
 	public String getActivity() {
 		return activity;
 	}

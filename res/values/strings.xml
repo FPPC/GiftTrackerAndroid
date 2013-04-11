@@ -41,5 +41,26 @@
         <string name="delete_source">Delete Source</string>
         <string name="yes">Yes</string>
         <string name="no">No</string>
+        <string name="add_source">Add Source</string>
+        <string name="edit_contribution">Edit Contribution</string>
+        <string name="city_">City:</string>
+        <string name="state_">State:</string>
+        <string name="zipcode_">Zipcode:</string>
+        <string name="zipcode">Zipcode</string>
+        <string name="state">State</string>
+        <string name="city">City</string>
+        <string name="apt_suite_unit">Apt, suite, unit</string>
+        <string name="street_address">Street address</string>
+        <string name="email_optional_">Email (optional)</string>
+        <string name="phone_number_optional_">Phone number (optional)</string>
+        <string name="fair_political_practices_commission">Fair Political Practices Commission</string>
+        <string name="lobbyist_lobbying_firm">Lobbyist / Lobbying Firm</string>
+        <string name="details">Details</string>
+        <string name="your_email_address">Your email address</string>
+        <string name="send">Send</string>
+        <string name="edit_amount">Edit Amount</string>
+        <string name="sms">SMS</string>
+        <string name="email">Email</string>
+        <string name="call">Call</string>
 
 </resources>

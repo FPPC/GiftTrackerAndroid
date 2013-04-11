@@ -17,8 +17,11 @@ public class SourceDAO {
 	private SQLiteDatabase db;
 	private SQLiteHelper dbhelper;
 	private String[] allColumns = { SQLiteHelper.SOURCE_ID,
-			SQLiteHelper.SOURCE_NAME, SQLiteHelper.SOURCE_ADDR,
-			SQLiteHelper.SOURCE_ACTI, SQLiteHelper.SOURCE_LOBBY};
+			SQLiteHelper.SOURCE_NAME, SQLiteHelper.SOURCE_ADDR1,
+			SQLiteHelper.SOURCE_ADDR2, SQLiteHelper.SOURCE_CITY,
+			SQLiteHelper.SOURCE_STATE, SQLiteHelper.SOURCE_ZIP,
+			SQLiteHelper.SOURCE_ACTI, SQLiteHelper.SOURCE_LOBBY,
+			SQLiteHelper.SOURCE_EMAIL, SQLiteHelper.SOURCE_PHONE};
 	private List<Source> srcs;
 
 	public SourceDAO(Context context) {
@@ -34,19 +37,27 @@ public class SourceDAO {
 		dbhelper.close();
 	}
 
-	public Source createSource(String name, String addr, String acti, int lobby) {
+	public Source createSource(String name, String addr1, String addr2, String city, String state, String zip, 
+			String acti, int lobby, String email, String phone) {
 		ContentValues values = new ContentValues();
 		values.put(SQLiteHelper.SOURCE_NAME, name);
-		values.put(SQLiteHelper.SOURCE_ADDR, addr);
+		values.put(SQLiteHelper.SOURCE_ADDR1, addr1);
+		values.put(SQLiteHelper.SOURCE_ADDR2, addr2);
+		values.put(SQLiteHelper.SOURCE_CITY, city);
+		values.put(SQLiteHelper.SOURCE_STATE, state);
+		values.put(SQLiteHelper.SOURCE_ZIP, zip);
 		values.put(SQLiteHelper.SOURCE_ACTI, acti);
 		values.put(SQLiteHelper.SOURCE_LOBBY, lobby);
+		values.put(SQLiteHelper.SOURCE_EMAIL, email);
+		values.put(SQLiteHelper.SOURCE_PHONE, phone);
 		long insertID = db.insert(SQLiteHelper.TABLE_SOURCE, null, values);
 
 		/*
 		 * put the same thing into FTS table
 		 */
 		ContentValues search_index = new ContentValues();
-		String index_content = name + " " + addr + " " + acti + (lobby==0?"":" lobbyist"); /*lobbyist gets a tag for search purpose*/
+		String index_content = name + " " + addr1+" "+addr2+" "+city+" "+state+" "+zip 
+				+ " " + acti + (lobby==0?"":" lobbyist") + email + " " + phone; /*lobbyist gets a tag for search purpose*/
 		search_index.put(SQLiteHelper.CONTENT, index_content);
 		search_index.put(SQLiteHelper.DOC_ID,insertID);
 		long secondID = db.insert(SQLiteHelper.SOURCE_TABLE_FTS, null, search_index);
@@ -76,18 +87,31 @@ public class SourceDAO {
 		Source src = new Source();
 		src.setID(cursor.getLong(0));
 		src.setName(cursor.getString(1));
-		src.setAddress(cursor.getString(2));
-		src.setActivity(cursor.getString(3));
-		src.setLobby(cursor.getInt(4));
+		src.setAddress1(cursor.getString(2));
+		src.setAddress2(cursor.getString(3));
+		src.setCity(cursor.getString(4));
+		src.setState(cursor.getString(5));
+		src.setZip(cursor.getString(6));
+		src.setActivity(cursor.getString(7));
+		src.setLobby(cursor.getInt(8));
+		src.setEmail(cursor.getString(9));
+		src.setPhone(cursor.getString(10));
 		return src;
 	}
 
 	public long updateSource(Source source) {
 		ContentValues values = new ContentValues();
 		values.put(SQLiteHelper.SOURCE_NAME, source.getName());
-		values.put(SQLiteHelper.SOURCE_ADDR, source.getAddress());
+		values.put(SQLiteHelper.SOURCE_ADDR1, source.getAddress1());
+		values.put(SQLiteHelper.SOURCE_ADDR2, source.getAddress2());
+		values.put(SQLiteHelper.SOURCE_CITY, source.getCity());
+		values.put(SQLiteHelper.SOURCE_STATE, source.getState());
+		values.put(SQLiteHelper.SOURCE_ZIP, source.getZip());	
 		values.put(SQLiteHelper.SOURCE_ACTI, source.getActivity());
 		values.put(SQLiteHelper.SOURCE_LOBBY, source.getLobby());
+		values.put(SQLiteHelper.SOURCE_EMAIL, source.getEmail());
+		values.put(SQLiteHelper.SOURCE_PHONE, source.getPhone());
+		
 		long updateID = source.getID();
 		db.update(SQLiteHelper.TABLE_SOURCE, values,
 				SQLiteHelper.SOURCE_ID + " = " + updateID, null);
@@ -108,14 +132,11 @@ public class SourceDAO {
 		String [] args = {""+id};
 		db.delete(SQLiteHelper.TABLE_GIVING,where,args); 
 		
-		int tf = 0;
-		int wt = 0;
 		//delete the source
-		tf = db.delete(SQLiteHelper.TABLE_SOURCE,where,args);
+		db.delete(SQLiteHelper.TABLE_SOURCE,where,args);
 		//mirror move on the index table
 		where = SQLiteHelper.DOC_ID + " = ?";
-		wt = db.delete(SQLiteHelper.SOURCE_TABLE_FTS, where, args);
-		Log.wtf(""+tf,""+wt);
+		db.delete(SQLiteHelper.SOURCE_TABLE_FTS, where, args);
 	}
 
 	public List<Source> getAllSource() {

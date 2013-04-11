@@ -57,7 +57,7 @@ public class SourceAdapter extends ArrayAdapter<Source>{
 		yearly = Constant.GIFT_LIMIT-lookup.totalReceived(sc.getID(),this.year);
 		double limit_left = Constant.GIFT_LIMIT;
 		if (sc.getLobby() != 0) {
-			job = sc.getActivity()+ " - Lobbyist";
+			job = sc.getActivity()+ " - Lobbying";
 			limit_left = (monthly<yearly)?monthly:yearly;
 		} else {
 			job = sc.getActivity();

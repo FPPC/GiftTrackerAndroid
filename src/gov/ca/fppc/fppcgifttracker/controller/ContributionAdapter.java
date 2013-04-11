@@ -15,29 +15,26 @@ import gov.ca.fppc.fppcgifttracker.model.*;
 public class ContributionAdapter extends ArrayAdapter<Source>{
 	private final Context context;
 	private List<Source> source;
-	private List<Double> contribution;
- 	private GiftSourceRelationDAO lookup;
+	private GiftSourceRelationDAO lookup;
 	private Long gid;
 	private View.OnFocusChangeListener valueUpdater;
-	private EditText contrib;
 	private boolean state;
 	/*
 	 * Make comparator for sort
 	 * Sort by allowance left
 	 */
-	
+
 	public ContributionAdapter(Context context, List<Source> source,
 			GiftSourceRelationDAO lookup, long gid, View.OnFocusChangeListener valueUpdater) {
 		super(context, R.layout.contribution_list,source);
 		this.context = context;
 		this.source = source;
-		this.contribution = contribution;
 		this.lookup = lookup;
 		this.gid=gid;
 		this.valueUpdater = valueUpdater;
 		this.state = false;
 	}
-		
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
@@ -56,44 +53,51 @@ public class ContributionAdapter extends ArrayAdapter<Source>{
 		}
 		Source sc = source.get(position);
 		vholder.s_name.setText(sc.getName());
-		//android.util.Log.wtf("work here",sc.getName());
 		String job;
 		if (sc.getLobby() != 0) {
 			job = sc.getActivity()+ " - Lobbyist";
 		} else {
 			job = sc.getActivity();
 		}
-			
+
 		vholder.s_business.setText(job);
-		
-		if (gid != -1) {
+
+		if (gid > -1) {
 			vholder.s_contribution.setText(String.format("%.2f",lookup.getValue(gid, sc.getID())));
 		}
 		/*else {
 			vholder.s_contribution.setText("");
 		}*/
-		vholder.s_contribution.setOnFocusChangeListener(valueUpdater);
-		contrib = vholder.s_contribution;
 		vholder.s_contribution.setFocusable(state);
-		//TODO
-		boolean debug = vholder.s_contribution.requestFocus();
-		Log.wtf("focused?",debug?"yes":"no");
+		vholder.s_contribution.setFocusableInTouchMode(state);
+		vholder.s_contribution.setOnFocusChangeListener(valueUpdater);
+
 		return rowView;
 	}
-	
-	public void toggleEdit() {
+
+	public void toggleEdit(List<EditText> editTexts) {
 		state = !state;
-		Log.wtf("state: "+contrib.getText().toString(), state?"true":"false");
+		EditText temp;
+		if (!editTexts.isEmpty()) {
+			for(int i = 0; i < editTexts.size(); i++) {
+				temp = editTexts.get(i);
+				temp.setFocusable(state);
+				temp.setFocusableInTouchMode(state);
+			}
+			temp = editTexts.get(editTexts.size()-1);
+			if (temp!=null)
+				temp.requestFocus(View.FOCUS_UP);
+		}
 	}
-	
+
 	public Source getSource(int position) {
 		return this.source.get(position);
 	}
-	
+
 	static private class ContributionViewHolder {
 		TextView s_name;
 		TextView s_business;
 		EditText s_contribution;
-		
+
 	}
 }

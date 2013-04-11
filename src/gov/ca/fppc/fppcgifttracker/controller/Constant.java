@@ -10,7 +10,13 @@ public class Constant {
 	public static final int NEW = 2;
 	public static final int DELETE = 3;
 	public static final int OTHER = 4;
+	public static final int SEND = 5;
+	public static final int CANCEL = 6;
 	public static final int APPEND_SOURCE = 3;
 	public static final double GIFT_LIMIT = 440.0;
 	public static final double LOBBY_LIMIT = 10.0;
+	public static final String SUBJECT = "Excel file exported from Gift Tracking App";
+	public static final String MESSAGE = "This is an automated email sent from Android FPPC Gift Tracking App." +"\n"
+			+"Attached is the filled out Schedule D of form 700.";
+	public static final String FILE_LOC = "/sdcard/download/ScheduleD.xls";
 }

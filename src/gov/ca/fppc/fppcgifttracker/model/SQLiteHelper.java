@@ -14,9 +14,16 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	public static final String SOURCE_NAME = "src_name";
 	public static final String SOURCE_ID = "src_id";
-	public static final String SOURCE_ADDR = "src_address";
+	public static final String SOURCE_ADDR1 = "src_address1";
+	public static final String SOURCE_ADDR2 = "src_address2";
+	public static final String SOURCE_CITY = "src_city";
+	public static final String SOURCE_STATE = "src_state";
+	public static final String SOURCE_ZIP = "src_zip";
 	public static final String SOURCE_ACTI = "src_activity";
 	public static final String SOURCE_LOBBY = "src_lobby";
+	public static final String SOURCE_EMAIL = "src_email";
+	public static final String SOURCE_PHONE = "src_phone";
+	
 
 	/*
 	 * Gift table
@@ -44,7 +51,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public static final String CONTENT = "content";
 
 	private static final String DATABASE_NAME = "FORM700D";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 
 	
@@ -61,8 +68,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	 */
 	private static final String SOURCE_CREATE = "CREATE TABLE " + TABLE_SOURCE
 			+ "(" + SOURCE_ID + " integer primary key autoincrement, "
-			+ SOURCE_NAME + " text not null, " + SOURCE_ADDR + " text, "
-			+ SOURCE_ACTI + " text, " + SOURCE_LOBBY + " integer);";
+			+ SOURCE_NAME + " text not null, " + SOURCE_ADDR1 + " text, "
+			+ SOURCE_ADDR2 + " text, " + SOURCE_CITY + " text, " + SOURCE_STATE + " text, "
+			+ SOURCE_ZIP + " text, "
+			+ SOURCE_ACTI + " text, " + SOURCE_LOBBY + " integer, " 
+			+ SOURCE_EMAIL + " text, " + SOURCE_PHONE + " text);";
 	/*
 	 * CREATE TABLE TABLE_GIFT(
 	 * 		GIFT_ID INTEGER PRIMARY KEY AUTOINCREMENT,

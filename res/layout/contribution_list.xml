@@ -28,7 +28,6 @@
             android:textColor="@color/black_overlay" />
 
     </LinearLayout>
-
     <TextView
         android:id="@+id/address"
         style="@style/summary_text"
@@ -36,9 +35,8 @@
         android:layout_height="match_parent"
         android:layout_weight="4"
         android:gravity="center"
-        android:text="Contribution"
+        android:text="Gift Amount:"
         android:textColor="@color/black_overlay" />
-
     <EditText
         android:id="@+id/contribution"
         style="@style/summary_text.editcenter"

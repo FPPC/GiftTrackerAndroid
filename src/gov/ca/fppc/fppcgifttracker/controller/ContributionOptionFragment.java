@@ -35,7 +35,7 @@ public class ContributionOptionFragment extends DialogFragment {
 		View view = inflater.inflate(R.layout.contrib_option_frag, container, false);
 		this.yes = (Button) view.findViewById(R.id.yes);
 		this.no = (Button) view.findViewById(R.id.no);
-		
+		this.getDialog().setTitle("Do you want to remove this item?");
 		yes.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

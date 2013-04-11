@@ -68,21 +68,27 @@
         tools:layout="@layout/gift_list_fragment" >
     </fragment>
     <LinearLayout
+        android:id="@+id/contact_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
         <Button
-            android:id="@+id/all_gifts"
-            style="?android:attr/buttonStyleSmall"
+            android:id="@+id/SMS"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Recent Items" />
+            android:text="@string/sms" />
         <Button
-            android:id="@+id/dashboard_add_btn"
-            style="?android:attr/buttonStyleSmall"
+            android:id="@+id/call"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add Source" />
+            android:text="@string/call" />
+        <Button
+            android:id="@+id/email_src"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/email" />
     </LinearLayout>
 </LinearLayout>

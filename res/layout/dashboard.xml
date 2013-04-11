@@ -112,24 +112,35 @@
         class="gov.ca.fppc.fppcgifttracker.controller.SourceListFragment"
         tools:layout="@layout/source_search_fragment" >
     </fragment>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="70dp" >
         <Button
             android:id="@+id/all_gifts"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:text="Show all gifts" />
+            android:text="Show all gifts"
+            android:textSize="14sp" />
+        <Button
+            android:id="@+id/email_out"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="Email Excel File"
+            android:textSize="14sp" />
         <Button
             android:id="@+id/dashboard_add_btn"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:text="Add Source" />
+            android:text="Add Source"
+            android:textSize="14sp" />
     </LinearLayout>
-
 </LinearLayout>
