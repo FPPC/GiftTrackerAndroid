@@ -1,7 +1,5 @@
 package gov.ca.fppc.fppcgifttracker.controller;
 
-import java.util.Calendar;
-
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -41,7 +39,6 @@ public class GiftList extends Activity implements GiftItemClick, GiftSelectOptio
 
 	@Override
 	public void processChosen(Gift gft) {
-		// TODO Auto-generated method stub
 		this.chosenGift = gft;
 		FragmentManager fm = getFragmentManager();
 		GiftListOption option = new GiftListOption();
@@ -182,7 +179,7 @@ public class GiftList extends Activity implements GiftItemClick, GiftSelectOptio
 	private void updateReceived()
 	{
 		if (src !=null ){
-			totalReceived.setText(String.format("$%.2f",sgdao.totalReceived(src.getID(), Calendar.getInstance().get(Calendar.YEAR))));
+			totalReceived.setText(String.format("$%.2f",sgdao.totalReceived(src.getID(), Constant.currentYear)));
 		}
 	}
 }

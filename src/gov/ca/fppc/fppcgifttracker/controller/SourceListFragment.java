@@ -3,7 +3,6 @@ package gov.ca.fppc.fppcgifttracker.controller;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-
 import gov.ca.fppc.fppcgifttracker.R;
 import gov.ca.fppc.fppcgifttracker.model.GiftDAO;
 import gov.ca.fppc.fppcgifttracker.model.GiftSourceRelationDAO;
@@ -89,7 +88,7 @@ public class SourceListFragment extends DialogFragment{
 		
 		/*month and year, default to current*/
 		this.month = Calendar.getInstance().get(Calendar.MONTH);
-		this.year = Calendar.getInstance().get(Calendar.YEAR);
+		this.year = Constant.currentYear;
 		View view = inflater.inflate(R.layout.source_search_fragment, 
 				container, false);
 		/* view handle should be done here */

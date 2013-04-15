@@ -36,6 +36,11 @@
         <item>September</item>
         <item>December</item>
     </string-array>
+    <string-array name="years">
+        <item>2012</item>
+        <item>2013</item>
+        <item>2014</item>
+    </string-array>
         <string name="search_gift">Search gift</string>
         <string name="edit">Edit</string>
         <string name="delete_source">Delete Source</string>

@@ -21,7 +21,6 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -43,6 +42,7 @@ ListItemClick, OnItemSelectedListener, EmailOption.SelectEmailOption {
 	private TextView monthSum;
 	private TextView yearSum;
 	private Spinner monthSpinner;
+	private Spinner yearSpinner;
 	private Source src;
 	private int month;
 	private int year;
@@ -68,7 +68,7 @@ ListItemClick, OnItemSelectedListener, EmailOption.SelectEmailOption {
 		sgdao.open();
 
 		/*get current month/year */
-		year = Calendar.getInstance().get(Calendar.YEAR);
+		year = Constant.currentYear;
 		if (savedInstanceState == null) {
 			month = Calendar.getInstance().get(Calendar.MONTH)+1;
 		} else {
@@ -83,6 +83,8 @@ ListItemClick, OnItemSelectedListener, EmailOption.SelectEmailOption {
 		monthSum = (TextView)this.findViewById(R.id.month_value_sum);
 		yearSum = (TextView)this.findViewById(R.id.year_value_sum);
 		monthSpinner = (Spinner)this.findViewById(R.id.month_spinner);
+		yearSpinner = (Spinner)this.findViewById(R.id.year_spinner);
+
 		/*update the summary display*/
 		updateDashboard();
 
@@ -106,10 +108,10 @@ ListItemClick, OnItemSelectedListener, EmailOption.SelectEmailOption {
 				showAllGift();
 			}
 		});
-		
+
 		Button email = (Button) this.findViewById(R.id.email_out);
 		email.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				FragmentManager fm = getFragmentManager();
@@ -124,15 +126,19 @@ ListItemClick, OnItemSelectedListener, EmailOption.SelectEmailOption {
 	}
 
 	private void setupSpinner() {
-		String yearDisplayText = "Gift received in "+ year+":";
 		monthDisplay.setText("Gift received in:");
-		yearDisplay.setText(yearDisplayText);
+		yearDisplay.setText("Gift received in:");
 		ArrayAdapter<CharSequence> spinnerAdapter = 
 				ArrayAdapter.createFromResource(this, R.array.months, R.layout.spinner_item);
 		spinnerAdapter.setDropDownViewResource(R.layout.spinner_list);
 		monthSpinner.setAdapter(spinnerAdapter);
 		monthSpinner.setSelection(month-1);
 		monthSpinner.setOnItemSelectedListener(this);
+		ArrayAdapter<CharSequence> yearSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.years, R.layout.spinner_item);
+		yearSpinnerAdapter.setDropDownViewResource(R.layout.spinner_list);
+		yearSpinner.setAdapter(yearSpinnerAdapter);
+		yearSpinner.setSelection(1);
+		yearSpinner.setOnItemSelectedListener(this);
 	}
 	private void addButton (View button) {
 		Intent intent = new Intent(this, NewSource.class);
@@ -187,7 +193,16 @@ ListItemClick, OnItemSelectedListener, EmailOption.SelectEmailOption {
 	}
 	/*interface OnItemSelectedListener*/
 	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-		this.month = pos+1;
+		Spinner spin = (Spinner) parent;
+		if (spin.getId()== R.id.month_spinner) {
+			this.month = pos+1;
+			
+		} else if (spin.getId()==R.id.year_spinner){
+			Constant.currentYear = Constant.years[pos];
+			Constant.GIFT_LIMIT = Constant.normalLimit[pos];
+			Constant.LOBBY_LIMIT = Constant.lobbyLimit[pos];
+			this.year = Constant.currentYear;
+		}
 		updateDashboard();
 		sourceListFrag.updateMonthYear(month, year);
 	}
@@ -247,10 +262,10 @@ ListItemClick, OnItemSelectedListener, EmailOption.SelectEmailOption {
 		try {
 			writeout.write(exporter.export());
 		} catch (WriteException e) {
-			
+
 			e.printStackTrace();
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -261,10 +276,10 @@ ListItemClick, OnItemSelectedListener, EmailOption.SelectEmailOption {
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, Constant.MESSAGE); 
 
 		File file = new File(Constant.FILE_LOC);
-		
+
 		if (file.exists())
 		{
-			
+
 			emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+  Constant.FILE_LOC));
 			this.startActivity(Intent.createChooser(emailIntent, "Choose your mail client"));
 		}

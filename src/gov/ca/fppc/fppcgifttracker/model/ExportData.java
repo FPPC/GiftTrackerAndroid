@@ -1,9 +1,9 @@
 package gov.ca.fppc.fppcgifttracker.model;
 
+import gov.ca.fppc.fppcgifttracker.controller.Constant;
 import gov.ca.fppc.fppcgifttracker.util.ExcelOutputComparator;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class ExportData {
 	}
 		
 	public List<ExcelOutput> export() {
-		List<Gift> log = getListOfGift(Calendar.getInstance().get(Calendar.YEAR));
+		List<Gift> log = getListOfGift(Constant.currentYear);
 		return getAllData(log);
 	}
 	

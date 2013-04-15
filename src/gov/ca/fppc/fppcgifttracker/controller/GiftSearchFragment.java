@@ -9,7 +9,6 @@ import gov.ca.fppc.fppcgifttracker.model.SourceDAO;
 import gov.ca.fppc.fppcgifttracker.util.GiftComparator;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,7 +17,6 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,7 +87,7 @@ public class GiftSearchFragment extends Fragment {
 
 		source = null;
 
-		this.year = Calendar.getInstance().get(Calendar.YEAR);
+		this.year = Constant.currentYear;
 
 		View view = inflater.inflate(R.layout.gift_list_fragment, container, false);
 		this.giftList = (ListView) view.findViewById(R.id.gift_list_in_fragment);

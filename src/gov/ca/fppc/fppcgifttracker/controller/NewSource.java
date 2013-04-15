@@ -5,7 +5,6 @@ import gov.ca.fppc.fppcgifttracker.model.*;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -113,7 +112,6 @@ public class NewSource extends Activity {
 						
 			source.setActivity(acti);
 			source.setLobby(lobby);
-			Log.wtf(source.getEmail(), source.getPhone());
 			sdao.updateSource(source);
 			finish();
 
