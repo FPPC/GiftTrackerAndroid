@@ -31,7 +31,7 @@ public class ContributionAdapter extends ArrayAdapter<Source>{
 		this.lookup = lookup;
 		this.gid=gid;
 		this.valueUpdater = valueUpdater;
-		this.state = false;
+		this.state = true;
 	}
 
 	@Override

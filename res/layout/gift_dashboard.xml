@@ -21,26 +21,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
-            android:textColor="@color/FPPC_blue" />
+            android:textColor="@color/FPPC_blue"
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/job"
             style="@style/summary_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Job"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/address"
             style="@style/summary_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Address"
-            android:textColor="@color/black_overlay" />
+            android:textColor="@color/black_overlay"
+            android:textSize="14sp" />
         <LinearLayout
             android:id="@+id/total_receive_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp" >
+            android:paddingTop="5dp" >
             <TextView
                 android:id="@+id/TextView01"
                 style="@style/summary_text.italic"
@@ -48,7 +51,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Total received:"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="14sp" />
             <TextView
                 android:id="@+id/total_received"
                 style="@style/summary_text"
@@ -56,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="$123"
-                android:textColor="@color/dollar_green" />
+                android:textColor="@color/dollar_green"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
     <fragment

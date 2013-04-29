@@ -199,10 +199,10 @@ public class NewGift extends Activity implements ContributionOption {
 			}
 		}
 		srcAdapt.toggleEdit(allEd);
-		if (edit.getText().toString().equals("Edit Amount")) {
-			edit.setText("Finish Edit");
+		if (edit.getText().toString().equals("Remove Source")) {
+			edit.setText("Done");
 		} else {
-			edit.setText("Edit Amount");
+			edit.setText("Remove Source");
 			updateSum();
 		}
 	}
@@ -257,6 +257,7 @@ public class NewGift extends Activity implements ContributionOption {
 				adapt.notifyDataSetChanged();
 				hasItem = !(selectedList.getCount()==0);
 			}
+			updateSum();
 		}
 	}
 
@@ -356,7 +357,11 @@ public class NewGift extends Activity implements ContributionOption {
 			/*now the value*/
 			for(int i = 0; i < selectedList.getCount();i++) {
 				EditText contribution = (EditText) selectedList.getChildAt(i).findViewById(R.id.contribution);
-				double value = Double.parseDouble(contribution.getText().toString());
+				double value = 0.0;
+				try {
+					value = Double.parseDouble(contribution.getText().toString());
+				} catch (NumberFormatException e) {
+				}
 				long sid = selected.get(i).getID();
 				sgdao.createRelationIfNotExist(sid, g.getID(), value);
 			}

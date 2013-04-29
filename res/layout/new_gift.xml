@@ -1,51 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical" >
-
-    <include
-        android:id="@+id/general_header_ref"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/general_header" />
-
+ 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-
         <TextView
             android:id="@+id/name"
             style="@style/summary_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gift description:" />
-
+            android:text="Gift description:"
+            android:textSize="14sp" />
         <EditText
             android:id="@+id/gft_description"
             style="@style/summary_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10" >
-
-            <requestFocus />
-        </EditText>
-
+            android:ems="10"
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/address"
             style="@style/summary_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gift date" />
-
+            android:text="Gift date"
+            android:textSize="14sp" />
         <LinearLayout
             android:id="@+id/gift_date_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
-
             <EditText
                 android:id="@+id/gft_month"
                 style="@style/summary_text.editcenter"
@@ -53,15 +41,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number" />
-
+                android:inputType="number"
+                android:textSize="14sp" >
+                <requestFocus />
+            </EditText>
             <TextView
                 android:id="@+id/TextView03"
                 style="@style/summary_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="/" />
-
+                android:text="/"
+                android:textSize="14sp" />
             <EditText
                 android:id="@+id/gft_day"
                 style="@style/summary_text.editcenter"
@@ -69,15 +59,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number" />
-
+                android:inputType="number"
+                android:textSize="14sp" />
             <TextView
                 android:id="@+id/TextView04"
                 style="@style/summary_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="/" />
-
+                android:text="/"
+                android:textSize="14sp" />
             <EditText
                 android:id="@+id/gft_year"
                 style="@style/summary_text.editcenter"
@@ -85,17 +75,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textSize="14sp" />
         </LinearLayout>
-
         <TextView
             android:id="@+id/date_error"
             style="@style/summary_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/please_enter_a_valid_date"
-            android:textColor="@color/error_red" />
-
+            android:textColor="@color/error_red"
+            android:textSize="12sp" />
         <LinearLayout
             android:id="@+id/value_display"
             android:layout_width="match_parent"
@@ -107,7 +97,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
                 android:gravity="right"
-                android:text="Total Value of Gift:" />
+                android:text="Total Value of Gift:"
+                android:textSize="14sp" />
             <TextView
                 android:id="@+id/totalvalue"
                 style="@style/summary_text"
@@ -115,17 +106,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text=""
-                android:textColor="@color/dollar_green" />
-
+                android:textColor="@color/dollar_green"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
-
     <ListView
         android:id="@+id/selected_src_list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="0px"
         android:layout_weight="1"
         android:background="@color/white"
+        android:isScrollContainer="false"
         android:scrollbars="vertical" >
     </ListView>
     <LinearLayout
@@ -144,7 +135,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/edit_amount"
+            android:text="Remove Source"
             android:textSize="16sp" />
     </LinearLayout>
     <LinearLayout
@@ -165,7 +156,5 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/save" />
-        
     </LinearLayout>
-
 </LinearLayout>

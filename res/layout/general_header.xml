@@ -19,15 +19,16 @@
             style="@style/header_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/fair_political_practices_commission" />
+            android:text="@string/fair_political_practices_commission"
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/activity"
             style="@style/header_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/gift_tracker"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <ImageView

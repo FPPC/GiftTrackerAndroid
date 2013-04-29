@@ -1,131 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/source_business_input_wrapper"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/NewSourceScroller"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="5dp" >
-    <TextView
-        android:id="@+id/src_name_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/name_of_source_not_an_acronym_" />
-    <EditText
-        android:id="@+id/source_name_input"
-        style="@style/summary_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName" >
-        <requestFocus />
-    </EditText>
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/address_business_address_acceptable_" />
-    <EditText
-        android:id="@+id/source_address_input1"
-        style="@style/summary_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/street_address"
-        android:inputType="textPostalAddress" />
-    <EditText
-        android:id="@+id/source_addres_input2"
-        style="@style/summary_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/apt_suite_unit"
-        android:inputType="textPostalAddress" />
-    <EditText
-        android:id="@+id/source_city"
-        style="@style/summary_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/city"
-        android:inputType="textPostalAddress" />
+    android:layout_height="match_parent" >
     <LinearLayout
-        android:id="@+id/state_zip"
+        android:id="@+id/source_business_input_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        <EditText
-            android:id="@+id/source_state"
-            style="@style/summary_text"
-            android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp" >
+        <TextView
+            android:id="@+id/src_name_label"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:text="@string/name_of_source_not_an_acronym_" />
+        <EditText
+            android:id="@+id/source_name_input"
+            style="@style/summary_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/state"
+            android:inputType="textPersonName" >
+            <requestFocus />
+        </EditText>
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/address_business_address_acceptable_" />
+        <EditText
+            android:id="@+id/source_address_input1"
+            style="@style/summary_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/street_address"
             android:inputType="textPostalAddress" />
         <EditText
-            android:id="@+id/source_zip"
-            android:layout_width="0dp"
+            android:id="@+id/source_addres_input2"
+            style="@style/summary_text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:ems="10"
-            android:hint="@string/zipcode"
-            android:inputType="numberDecimal|textPostalAddress" />
-    </LinearLayout>
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/business_activity_of_any_of_source" />
-    <EditText
-        android:id="@+id/source_business_input"
-        style="@style/summary_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text" />
-    <TextView
-        android:id="@+id/TextView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/email_optional_" />
-    <EditText
-        android:id="@+id/email"
-        style="@style/summary_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text|textEmailAddress" />
-    <TextView
-        android:id="@+id/TextView02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/phone_number_optional_" />
-    <EditText
-        android:id="@+id/phone"
-        style="@style/summary_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="phone|text" />
-    <CheckBox
-        android:id="@+id/lobbyist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lobbyist_lobbying_firm" />
-    <LinearLayout
-        android:id="@+id/new_source_button_wrap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        <Button
-            android:id="@+id/source_input_cancel_delete_btn"
-            android:layout_width="0dp"
+            android:hint="@string/apt_suite_unit"
+            android:inputType="textPostalAddress" />
+        <EditText
+            android:id="@+id/source_city"
+            style="@style/summary_text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cancel" />
-        <Button
-            android:id="@+id/source_input_save_btn"
-            android:layout_width="0dp"
+            android:ems="10"
+            android:hint="@string/city"
+            android:inputType="textPostalAddress" />
+        <LinearLayout
+            android:id="@+id/state_zip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <EditText
+                android:id="@+id/source_state"
+                style="@style/summary_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/state"
+                android:inputType="textPostalAddress" />
+            <EditText
+                android:id="@+id/source_zip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/zipcode"
+                android:inputType="numberDecimal|textPostalAddress" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/save" />
+            android:text="@string/business_activity_of_any_of_source" />
+        <EditText
+            android:id="@+id/source_business_input"
+            style="@style/summary_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text" />
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/email_optional_" />
+        <EditText
+            android:id="@+id/email"
+            style="@style/summary_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text|textEmailAddress" />
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_number_optional_" />
+        <EditText
+            android:id="@+id/phone"
+            style="@style/summary_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="phone|text" />
+        <CheckBox
+            android:id="@+id/lobbyist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lobbyist_lobbying_firm" />
+        <LinearLayout
+            android:id="@+id/new_source_button_wrap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <Button
+                android:id="@+id/source_input_cancel_delete_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cancel" />
+            <Button
+                android:id="@+id/source_input_save_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/save" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>
